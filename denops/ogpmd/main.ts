@@ -45,16 +45,9 @@ export async function main(denops: Denops): Promise<void> {
         }
 
         // Display title
-        await helper.echo(denops, `Title: ${title}`);
+        await helper.echo(denops, title); // Display only the title string
 
-        // Display HTML content in a new buffer
-        await batch.batch(denops, async (denops) => {
-          await denops.cmd('new');
-          await denops.call('setline', 1, html.split('\n'));
-          await denops.cmd('setlocal buftype=nofile bufhidden=wipe noswapfile readonly');
-          await denops.cmd('setlocal filetype=html');
-        });
-        await helper.echo(denops, `Successfully fetched and displayed content from ${url}`);
+        // Success message removed as it's redundant now.
 
       } catch (error) {
         await helper.echo(denops, `Error fetching ${url}: ${error}`);
