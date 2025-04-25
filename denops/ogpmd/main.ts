@@ -44,10 +44,13 @@ export async function main(denops: Denops): Promise<void> {
           // パースエラーが発生しても、HTML自体の表示は試みる
         }
 
-        // Display title
-        await helper.echo(denops, title); // Display only the title string
-
-        // Success message removed as it's redundant now.
+        // Insert title before the current cursor line
+        if (title !== "No title found") {
+          await denops.call('append', '.', title.split('\n')); // Append title lines after the current line
+          await helper.echo(denops, `Inserted title: ${title}`); // Notify user
+        } else {
+          await helper.echo(denops, "Could not find title to insert.");
+        }
 
       } catch (error) {
         await helper.echo(denops, `Error fetching ${url}: ${error}`);
