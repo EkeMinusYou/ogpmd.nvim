@@ -1,0 +1,50 @@
+*ogpmd.txt*	For Neovim version 0.5 and higher	Last change: {date}
+
+==============================================================================
+CONTENTS						*ogpmd-contents*
+
+1. Introduction				|ogpmd-introduction|
+2. Usage					|ogpmd-usage|
+3. Configuration				|ogpmd-configuration|
+4. Commands				|ogpmd-commands|
+5. API					|ogpmd-api|
+
+==============================================================================
+INTRODUCTION					*ogpmd-introduction*
+
+ogpmd.nvim is a Neovim plugin for ...
+
+==============================================================================
+USAGE						*ogpmd-usage*
+
+Basic usage:
+>
+	:echo "Hello from ogpmd!"
+<
+
+==============================================================================
+CONFIGURATION				*ogpmd-configuration*
+
+Example configuration using lua:
+>lua
+	require('ogpmd').setup({
+		-- your configuration options here
+	})
+<
+
+==============================================================================
+COMMANDS					*ogpmd-commands*
+
+*:OgpmdHello*
+	Prints a greeting message.
+
+==============================================================================
+API						*ogpmd-api*
+
+The plugin provides the following Lua functions:
+
+*ogpmd.setup({opts})*
+	Sets up the plugin with the given options.
+
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:
