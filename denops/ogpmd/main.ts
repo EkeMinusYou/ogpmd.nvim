@@ -62,7 +62,6 @@ export async function main(denops: Denops): Promise<void> {
     );
   });
 
-  console.log("ogpmd.nvim (denops) loaded");
 }
 
 // Simple URL validation function
