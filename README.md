@@ -37,21 +37,13 @@ call dein#add('EkeMinusYou/ogpmd.nvim')
 
 ## Usage
 
-After installing the plugin, you can run the following commands in Neovim/Vim:
-
-```vim
-:OgpmdHello
-```
-
-This will print "Hello World from ogpmd (denops)!".
-
-You can also provide a URL argument to the `Ogpmd` command:
+After installing the plugin, you can use the `Ogpmd` command:
 
 ```vim
 :Ogpmd https://example.com
 ```
 
-This will fetch the HTML content from the specified URL and display it in a new buffer.
+This will fetch the HTML title from the specified URL and insert it after the current cursor line in the buffer.
 
 ## Configuration
 

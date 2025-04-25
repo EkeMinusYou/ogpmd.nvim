@@ -6,9 +6,6 @@ import { DOMParser, Element } from "https://deno.land/x/deno_dom@v0.1.47/deno-do
 
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
-    async hello(): Promise<void> {
-      await helper.echo(denops, "Hello World from ogpmd (denops)!");
-    },
     async fetchUrl(args: unknown): Promise<void> {
       const url = args as string;
       if (!url || !isValidUrl(url)) {
@@ -60,9 +57,6 @@ export async function main(denops: Denops): Promise<void> {
   };
 
   await batch.batch(denops, async (denops) => {
-    await denops.cmd(
-      `command! OgpmdHello call denops#request('${denops.name}', 'hello', [])`,
-    );
     await denops.cmd(
       `command! -nargs=1 Ogpmd call denops#request('${denops.name}', 'fetchUrl', [<f-args>])`,
     );

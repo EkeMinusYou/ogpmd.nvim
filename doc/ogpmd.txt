@@ -34,15 +34,13 @@ This plugin provides commands for basic interaction. See |ogpmd-commands|.
 ==============================================================================
 COMMANDS					*ogpmd-commands*
 
-*:OgpmdHello*
-	Prints a greeting message "Hello World from ogpmd (denops)!".
-
-*:Ogpmd* {text}
-	Prints the provided {text}. Example:
+*:Ogpmd* {url}
+	Fetches the HTML title from the specified {url} and inserts it after the
+	current cursor line. Example:
 >
-	:Ogpmd This is a test
+	:Ogpmd https://example.com
 <
-	Output: Ogpmd received: This is a test
+	(The title of the example.com page will be inserted below the current line)
 
 ==============================================================================
  vim:tw=78:ts=8:ft=help:norl:
