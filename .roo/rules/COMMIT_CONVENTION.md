@@ -28,7 +28,7 @@ The header has a special format that includes a **type**, a **scope** and a **su
     - `chore`: Other changes that don't modify src or test files
     - `revert`: Reverts a previous commit
 - **scope** (optional): A noun specifying the place of the commit change. Use `core` for general plugin core changes.
-- **subject**: A short, imperative mood description of the change (e.g., `add login feature`, not `added login feature` or `adds login feature`). Use lowercase and no period at the end.
+- **subject**: A short, imperative mood description of the change (e.g., `add login feature`, not `added login feature` or `adds login feature`). Use lowercase and no period at the end. **The subject must be a single line.**
 
 ## Example
 
