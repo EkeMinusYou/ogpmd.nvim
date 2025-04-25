@@ -1,64 +1,50 @@
-# ogpmd.nvim
+# ogpmd.nvim (Denops version)
 
 (ここにプラグインの簡単な説明を記述)
 
+## Requirements
+
+- [Neovim](https://neovim.io/) 0.9+ or [Vim](https://www.vim.org/) 8.2+
+- [denops.vim](https://github.com/vim-denops/denops.vim)
+
 ## Installation
+
+Use your favorite plugin manager.
 
 ### [lazy.nvim](https://github.com/folke/lazy.nvim)
 
-**Using `lazy.nvim`:**
-
 ```lua
 {
   'EkeMinusYou/ogpmd.nvim',
-  opts = {
-    -- configuration options
-  },
-  config = function(_, opts)
-    require('ogpmd').setup(opts)
-  end,
+  dependencies = { 'vim-denops/denops.vim' },
+  -- No config function needed for basic Denops plugins unless specific setup is required
 }
 ```
 
-**Local Installation (for testing):**
+### [vim-plug](https://github.com/junegunn/vim-plug)
 
-If you want to test the plugin locally without publishing it, you can specify the local path using the `dev` option:
-
-```lua
--- Example for local development:
-{
-  dir = '/Users/mineo/src/github.com/EkeMinusYou/ogpmd.nvim', -- Path to your local plugin
-  dev = true,
-  opts = {
-    -- configuration options
-  },
-  config = function(_, opts)
-    require('ogpmd').setup(opts)
-  end,
-}
+```vim
+Plug 'vim-denops/denops.vim'
+Plug 'EkeMinusYou/ogpmd.nvim'
 ```
 
-```lua
-{
-  'EkeMinusYou/ogpmd.nvim',
-  opts = {
-    -- configuration options
-  },
-  config = function(_, opts)
-    require('ogpmd').setup(opts)
-  end,
-}
+### [dein.vim](https://github.com/Shougo/dein.vim)
+
+```vim
+call dein#add('vim-denops/denops.vim')
+call dein#add('EkeMinusYou/ogpmd.nvim')
 ```
 
 ## Usage
 
-After installing and setting up the plugin, you can run the following command in Neovim:
+After installing the plugin, you can run the following commands in Neovim/Vim:
 
 ```vim
 :OgpmdHello
 ```
 
-This will print "Hello World from ogpmd!".
+This will print "Hello World from ogpmd (denops)!".
+
 You can also provide an argument to the `Ogpmd` command:
 
 ```vim
@@ -69,7 +55,7 @@ This will print "Ogpmd received: your_text_here".
 
 ## Configuration
 
-(ここに設定オプションの詳細を記述)
+(Currently, no specific configuration options are available.)
 
 ## Contributing
 

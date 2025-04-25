@@ -1,50 +1,48 @@
-*ogpmd.txt*	For Neovim version 0.5 and higher	Last change: {date}
+*ogpmd.txt*	For Neovim 0.9+ or Vim 8.2+ with Denops	Last change: {date}
 
 ==============================================================================
 CONTENTS						*ogpmd-contents*
 
 1. Introduction				|ogpmd-introduction|
-2. Usage					|ogpmd-usage|
-3. Configuration				|ogpmd-configuration|
-4. Commands				|ogpmd-commands|
-5. API					|ogpmd-api|
+2. Requirements				|ogpmd-requirements|
+3. Installation				|ogpmd-installation|
+4. Usage					|ogpmd-usage|
+5. Commands				|ogpmd-commands|
 
 ==============================================================================
 INTRODUCTION					*ogpmd-introduction*
 
-ogpmd.nvim is a Neovim plugin for ...
+ogpmd.nvim is a Neovim/Vim plugin for ... (based on Denops)
+
+==============================================================================
+REQUIREMENTS					*ogpmd-requirements*
+
+- [Neovim](https://neovim.io/) 0.9+ or [Vim](https://www.vim.org/) 8.2+
+- [denops.vim](https://github.com/vim-denops/denops.vim)
+
+==============================================================================
+INSTALLATION					*ogpmd-installation*
+
+Install using your favorite plugin manager. Ensure `denops.vim` is also installed.
+See README.md for examples using lazy.nvim, vim-plug, and dein.vim.
 
 ==============================================================================
 USAGE						*ogpmd-usage*
 
-Basic usage:
->
-	:echo "Hello from ogpmd!"
-<
-
-==============================================================================
-CONFIGURATION				*ogpmd-configuration*
-
-Example configuration using lua:
->lua
-	require('ogpmd').setup({
-		-- your configuration options here
-	})
-<
+This plugin provides commands for basic interaction. See |ogpmd-commands|.
 
 ==============================================================================
 COMMANDS					*ogpmd-commands*
 
 *:OgpmdHello*
-	Prints a greeting message.
+	Prints a greeting message "Hello World from ogpmd (denops)!".
 
-==============================================================================
-API						*ogpmd-api*
-
-The plugin provides the following Lua functions:
-
-*ogpmd.setup({opts})*
-	Sets up the plugin with the given options.
+*:Ogpmd* {text}
+	Prints the provided {text}. Example:
+>
+	:Ogpmd This is a test
+<
+	Output: Ogpmd received: This is a test
 
 ==============================================================================
  vim:tw=78:ts=8:ft=help:norl:

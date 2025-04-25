@@ -1,0 +1,26 @@
+{
+  "tasks": {
+    "test": "deno test -A --doc --parallel"
+  },
+  "imports": {
+    "jsr:@denops/core@^7.0.0": "jsr:@denops/core@^7.0.0",
+    "jsr:@denops/std@^7.0.0": "jsr:@denops/std@^7.0.0",
+    "jsr:@denops/std@^7.0.0/": "jsr:@denops/std@^7.0.0/"
+  },
+  "fmt": {
+    "options": {
+      "indentWidth": 2,
+      "lineWidth": 80,
+      "proseWrap": "always",
+      "singleQuote": false,
+      "useTabs": false
+    }
+  },
+  "lint": {
+    "rules": {
+      "tags": [
+        "recommended"
+      ]
+    }
+  }
+}
