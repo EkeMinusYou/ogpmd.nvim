@@ -1,5 +1,4 @@
 import type { Denops } from "./deps.ts";
-import { helper } from "./deps.ts";
 import { fetchAndParseHtml, extractMetaData, type MetaData } from "./html.ts"; // Import MetaData type
 import { processMetaData, insertDataIntoBuffer } from "./format.ts";
 
@@ -7,22 +6,22 @@ export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
     async unfurl(args: unknown): Promise<void> {
       if (typeof args !== "string") {
-        await helper.echoerr(denops, `Invalid argument type: expected string, got ${typeof args}`);
+        console.error(`Invalid argument type: expected string, got ${typeof args}`);
         return;
       }
       const url = args;
       if (!isValidUrl(url)) {
-        await helper.echoerr(denops, `Invalid URL: ${url}. Usage: unfurl <url>`);
+        console.error(`Invalid URL: ${url}. Usage: unfurl <url>`);
         return;
       }
 
-      await helper.echo(denops, `Fetching metadata for ${url}...`);
+      console.log(`Fetching metadata for ${url}...`);
       try {
         await handleUnfurlRequest(denops, url);
-        await helper.echo(denops, `Successfully processed ${url}`);
+        console.log(`Successfully processed ${url}`);
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
-        await helper.echoerr(denops, `Error processing ${url}: ${errorMessage}`);
+        console.error(`Error processing ${url}: ${errorMessage}`);
       }
     },
   };

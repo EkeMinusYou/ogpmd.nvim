@@ -1,5 +1,4 @@
 import type { Denops } from "./deps.ts";
-import { helper } from "./deps.ts";
 import type { MetaData } from "./html.ts";
 
 /**
@@ -61,10 +60,10 @@ export async function insertDataIntoBuffer(denops: Denops, processedData: Proces
   if (linesToInsert.length > 0) {
     await denops.call("append", ".", linesToInsert);
     // Use the URL from processedData for logging
-    await helper.echo(denops, `Inserted metadata for ${processedData.url}`); // Changed log message
+    console.log(`Inserted metadata for ${processedData.url}`); // Changed log message
   } else {
     // Use the URL from processedData for logging
-    await helper.echo(denops, `No metadata (title or image URL) found to insert for ${processedData.url}.`); // Changed log message
+    console.log(`No metadata (title or image URL) found to insert for ${processedData.url}.`); // Changed log message
   }
 }
 
