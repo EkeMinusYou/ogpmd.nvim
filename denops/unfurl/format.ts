@@ -56,7 +56,7 @@ export async function insertDataIntoBuffer(denops: Denops, processedData: Proces
   }
 
   if (processedData.imageUrl) {
-    linesToInsert.push(`![${titleForAlt}](${processedData.imageUrl})`);
+    linesToInsert.push(processedData.imageUrl);
   }
 
   if (linesToInsert.length > 0) {
