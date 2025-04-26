@@ -1,6 +1,6 @@
 import type { Denops } from "./deps.ts";
 import { helper } from "./deps.ts";
-import { fetchAndParseHtml, extractMetaData } from "./html.ts";
+import { fetchAndParseHtml, extractMetaData, type MetaData } from "./html.ts"; // Import MetaData type
 import { processMetaData, insertDataIntoBuffer } from "./format.ts";
 
 export async function main(denops: Denops): Promise<void> {
@@ -17,14 +17,13 @@ export async function main(denops: Denops): Promise<void> {
       }
 
       await helper.echo(denops, `Fetching metadata for ${url}...`);
-      handleUnfurlRequest(denops, url)
-        .then(() => {
-          helper.echo(denops, `Successfully processed ${url}`);
-        })
-        .catch((error) => {
-          const errorMessage = error instanceof Error ? error.message : String(error);
-          helper.echoerr(denops, `Error processing ${url}: ${errorMessage}`);
-        });
+      try {
+        await handleUnfurlRequest(denops, url);
+        await helper.echo(denops, `Successfully processed ${url}`);
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        await helper.echoerr(denops, `Error processing ${url}: ${errorMessage}`);
+      }
     },
   };
 
@@ -40,10 +39,13 @@ export async function main(denops: Denops): Promise<void> {
  * @param url The URL to unfurl.
  */
 async function handleUnfurlRequest(denops: Denops, url: string): Promise<void> {
-  const doc = await fetchAndParseHtml(url);
-  const metaData = extractMetaData(doc, url);
-  const processedData = await processMetaData(denops, metaData, url);
-  await insertDataIntoBuffer(denops, processedData, url);
+  const doc = await fetchAndParseHtml(url); // fetch errors are caught by the dispatcher
+
+  // extractMetaData might throw if image URL resolution fails inside extractImageUrl
+  const metaData: MetaData = extractMetaData(doc, url);
+
+  const processedData = await processMetaData(denops, metaData, url); // processMetaData no longer uses denops/url
+  await insertDataIntoBuffer(denops, processedData); // Removed the third argument (url)
 }
 
 /**

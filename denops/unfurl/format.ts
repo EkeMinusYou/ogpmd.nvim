@@ -20,34 +20,16 @@ export type ProcessedMetaData = {
  * @param originalUrl The original URL that was unfurled.
  * @returns A Promise resolving to the ProcessedMetaData.
  */
-export async function processMetaData(denops: Denops, data: MetaData, originalUrl: string): Promise<ProcessedMetaData> {
+export async function processMetaData(_denops: Denops, data: MetaData, _originalUrl: string): Promise<ProcessedMetaData> {
   // Use the URL from MetaData (prioritizes og:url)
   const urlToUse = data.url;
   const markdownLink = data.title ? createMarkdownLink(data.title, urlToUse) : null;
-  const imageUrl = data.imageUrl; // Changed from data.ogpImageUrl
-  const metaType = data.type; // Changed from data.ogType
+  const imageUrl = data.imageUrl;
+  const metaType = data.type;
 
-  if (imageUrl) {
-    await helper.echo(denops, `Image URL found: ${imageUrl}`); // Changed log message
-  } else {
-    await helper.echo(denops, "Could not find image URL."); // Changed log message
-  }
+  // Removed debug logs
 
-  if (data.title) {
-    await helper.echo(denops, `Title found: ${data.title}`);
-  } else {
-    await helper.echo(denops, "Could not find title.");
-  }
-
-  // Added: Log og:type if found
-  if (metaType) { // Changed variable name
-    await helper.echo(denops, `Meta type found: ${metaType}`); // Changed log message and variable
-  } else {
-    await helper.echo(denops, "Could not find meta type."); // Changed log message
-  }
-
-
-  return { markdownLink, imageUrl, type: metaType, url: urlToUse }; // Changed property name and variable
+  return { markdownLink, imageUrl, type: metaType, url: urlToUse };
 }
 
 /**
@@ -56,17 +38,14 @@ export async function processMetaData(denops: Denops, data: MetaData, originalUr
  * @param processedData The data to insert.
  * @param _url The original URL (now unused, URL comes from processedData).
  */
-export async function insertDataIntoBuffer(denops: Denops, processedData: ProcessedMetaData, _url: string): Promise<void> { // Changed type
+export async function insertDataIntoBuffer(denops: Denops, processedData: ProcessedMetaData): Promise<void> {
   const linesToInsert: string[] = [];
-  let titleForAlt = "meta-image"; // Changed default alt text
+  // Removed unused titleForAlt variable
 
   // Insert title (markdownLink) first
   if (processedData.markdownLink) {
     linesToInsert.push(processedData.markdownLink);
-    const match = processedData.markdownLink.match(/^\[(.*?)\]\(.*\)$/);
-    if (match?.[1]) {
-      titleForAlt = match[1]; // Keep for potential future use with image alt text
-    }
+    // Removed unused title extraction for alt text
   }
 
   // Then insert type

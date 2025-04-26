@@ -89,7 +89,8 @@ function extractTitle(doc: HTMLDocument): string | null {
  * Resolves relative URLs against the base URL.
  * @param doc The parsed HTMLDocument.
  * @param baseUrl The base URL for resolving relative paths.
- * @returns The absolute image URL or null if not found or invalid.
+ * @returns The absolute image URL or null if not found.
+ * @throws If a relative image URL cannot be resolved against the base URL.
  */
 function extractImageUrl(doc: HTMLDocument, baseUrl: string): string | null {
   const metaElement = doc.querySelector('meta[property="og:image"]');
@@ -97,16 +98,18 @@ function extractImageUrl(doc: HTMLDocument, baseUrl: string): string | null {
 
   if (imageUrl) {
     try {
+      // Check if it's already an absolute URL
       new URL(imageUrl);
       return imageUrl;
     } catch (_) {
+      // If not absolute, try resolving it against the base URL
       try {
         return new URL(imageUrl, baseUrl).href;
       } catch (resolveError) {
-        console.error(`Failed to resolve relative image URL "${imageUrl}" against base "${baseUrl}": ${resolveError}`);
-        return null;
+        // Throw an error if resolution fails
+        throw new Error(`Failed to resolve relative image URL "${imageUrl}" against base "${baseUrl}": ${resolveError}`);
       }
     }
   }
-  return null;
+  return null; // Return null if og:image meta tag is not found
 }
