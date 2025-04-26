@@ -3,11 +3,10 @@
   "specifiers": {
     "jsr:@core/unknownutil@^4.3.0": "4.3.0",
     "jsr:@denops/core@7": "7.0.1",
-    "jsr:@denops/std@7": "7.4.0",
-    "jsr:@std/encoding@~0.224.3": "0.224.3",
-    "jsr:@std/fs@1": "1.0.4",
-    "jsr:@std/path@^1.0.2": "1.0.6",
-    "jsr:@std/semver@1": "1.0.3",
+    "jsr:@denops/std@7": "7.5.0",
+    "jsr:@std/fs@1": "1.0.17",
+    "jsr:@std/path@^1.0.2": "1.0.9",
+    "jsr:@std/semver@1": "1.0.5",
     "jsr:@std/ulid@1": "1.0.0"
   },
   "jsr": {
@@ -17,8 +16,8 @@
     "@denops/core@7.0.1": {
       "integrity": "ede39eec60de6d5bf0fbc0337d3e420a9689cc48afea8c71752e6c0fb630bde0"
     },
-    "@denops/std@7.4.0": {
-      "integrity": "6d7ae66af0286a440c14c0ba096b4336697bcd69e83e0fce21a41fb3dec10d65",
+    "@denops/std@7.5.0": {
+      "integrity": "22d41172f1f5c91265a5555c1aecd63263176c6c65b4fb7c2b1a585ecb79a554",
       "dependencies": [
         "jsr:@core/unknownutil",
         "jsr:@denops/core",
@@ -28,17 +27,14 @@
         "jsr:@std/ulid"
       ]
     },
-    "@std/encoding@0.224.3": {
-      "integrity": "5e861b6d81be5359fad4155e591acf17c0207b595112d1840998bb9f476dbdaf"
+    "@std/fs@1.0.17": {
+      "integrity": "1c00c632677c1158988ef7a004cb16137f870aafdb8163b9dce86ec652f3952b"
     },
-    "@std/fs@1.0.4": {
-      "integrity": "2907d32d8d1d9e540588fd5fe0ec21ee638134bd51df327ad4e443aaef07123c"
+    "@std/path@1.0.9": {
+      "integrity": "260a49f11edd3db93dd38350bf9cd1b4d1366afa98e81b86167b4e3dd750129e"
     },
-    "@std/path@1.0.6": {
-      "integrity": "ab2c55f902b380cf28e0eec501b4906e4c1960d13f00e11cfbcd21de15f18fed"
-    },
-    "@std/semver@1.0.3": {
-      "integrity": "7c139c6076a080eeaa4252c78b95ca5302818d7eafab0470d34cafd9930c13c8"
+    "@std/semver@1.0.5": {
+      "integrity": "529f79e83705714c105ad0ba55bec0f9da0f24d2f726b6cc1c15e505cc2c0624"
     },
     "@std/ulid@1.0.0": {
       "integrity": "d41c3d27a907714413649fee864b7cde8d42ee68437d22b79d5de4f81d808780"
@@ -67,12 +63,5 @@
     "https://deno.land/x/deno_dom@v0.1.47/src/dom/utils-types.ts": "96db30e3e4a75b194201bb9fa30988215da7f91b380fca6a5143e51ece2a8436",
     "https://deno.land/x/deno_dom@v0.1.47/src/dom/utils.ts": "4c6206516fb8f61f37a209c829e812c4f5a183e46d082934dd14c91bde939263",
     "https://deno.land/x/deno_dom@v0.1.47/src/parser.ts": "e06b2300d693e6ae7564e53dfa5c9a9e97fdb8c044c39c52c8b93b5d60860be3"
-  },
-  "workspace": {
-    "dependencies": [
-      "jsr:@denops/core@7",
-      "jsr:@denops/std@7",
-      "jsr:@std/encoding@~0.224.3"
-    ]
   }
 }
