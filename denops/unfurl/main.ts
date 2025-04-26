@@ -1,7 +1,7 @@
 import type { Denops } from "./deps.ts";
 import { helper } from "./deps.ts";
-import { fetchAndParseHtml, extractOgpData } from "./html.ts";
-import { processOgpData, insertDataIntoBuffer } from "./format.ts";
+import { fetchAndParseHtml, extractMetaData } from "./html.ts";
+import { processMetaData, insertDataIntoBuffer } from "./format.ts";
 
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
@@ -16,7 +16,7 @@ export async function main(denops: Denops): Promise<void> {
         return;
       }
 
-      await helper.echo(denops, `Fetching OGP data for ${url}...`);
+      await helper.echo(denops, `Fetching metadata for ${url}...`);
       handleUnfurlRequest(denops, url)
         .then(() => {
           helper.echo(denops, `Successfully processed ${url}`);
@@ -34,15 +34,15 @@ export async function main(denops: Denops): Promise<void> {
 }
 
 /**
- * Handles the core logic for fetching, processing, and inserting OGP data.
+ * Handles the core logic for fetching, processing, and inserting metadata.
  * Delegates tasks to imported functions from html.ts and format.ts.
  * @param denops The Denops instance.
  * @param url The URL to unfurl.
  */
 async function handleUnfurlRequest(denops: Denops, url: string): Promise<void> {
   const doc = await fetchAndParseHtml(url);
-  const ogpData = extractOgpData(doc, url);
-  const processedData = await processOgpData(denops, ogpData, url);
+  const metaData = extractMetaData(doc, url);
+  const processedData = await processMetaData(denops, metaData, url);
   await insertDataIntoBuffer(denops, processedData, url);
 }
 

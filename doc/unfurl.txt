@@ -35,15 +35,16 @@ This plugin provides commands for basic interaction. See |unfurl-commands|.
 COMMANDS					*unfurl-commands*
 
 *:Unfurl* {url}
-	Fetches the HTML title and OGP image (if available) from the specified
-	{url}. Inserts the title as a Markdown link (`[title](url)`) and the
-	OGP image's Base64 encoded string directly after the current cursor line.
+	Fetches the HTML title, meta image, and meta type (if available) from the
+	specified {url}. Inserts the meta type as `(Type: type)`, the title as a
+	Markdown link (`[title](url)`), and the meta image URL directly after the
+	current cursor line.
 	Example:
 >
 	:Unfurl https://github.com
 <
-	(`[GitHub: Let’s build from here · GitHub](https://github.com)` and
-	 the raw Base64 string of the OGP image might be inserted below the current line)
+	(`(Type: website)`, `[GitHub: Let’s build from here · GitHub](https://github.com)`,
+	 and the meta image URL might be inserted below the current line)
 
 ==============================================================================
  vim:tw=78:ts=8:ft=help:norl:

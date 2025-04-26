@@ -1,11 +1,12 @@
 import { DOMParser, type HTMLDocument } from "./deps.ts";
 
 /**
- * Represents the extracted OGP data.
+ * Represents the extracted metadata.
  */
-export type OgpData = {
+export type MetaData = {
   title: string | null;
-  ogpImageUrl: string | null;
+  imageUrl: string | null;
+  type: string | null; // Added: og:type
   url: string; // Added: URL (og:url or original)
 };
 
@@ -30,27 +31,38 @@ export async function fetchAndParseHtml(url: string): Promise<HTMLDocument> {
 }
 
 /**
- * Extracts the OGP URL (og:url) from the HTML document.
+ * Extracts the meta URL (og:url) from the HTML document.
  * @param doc The parsed HTMLDocument.
  * @returns The og:url content or null if not found.
  */
-function extractOgpUrl(doc: HTMLDocument): string | null {
+function extractMetaUrl(doc: HTMLDocument): string | null {
   const metaElement = doc.querySelector('meta[property="og:url"]');
   return metaElement?.getAttribute("content")?.trim() || null;
 }
 
 /**
- * Extracts OGP data (title, image URL, and URL) from the HTML document.
+ * Extracts the meta type (og:type) from the HTML document.
+ * @param doc The parsed HTMLDocument.
+ * @returns The og:type content or null if not found.
+ */
+function extractMetaType(doc: HTMLDocument): string | null {
+  const metaElement = doc.querySelector('meta[property="og:type"]');
+  return metaElement?.getAttribute("content")?.trim() || null;
+}
+
+/**
+ * Extracts metadata (title, image URL, type, and URL) from the HTML document.
  * @param doc The parsed HTMLDocument.
  * @param baseUrl The base URL used to resolve relative image URLs.
- * @returns An OgpData object.
+ * @returns A MetaData object.
  */
-export function extractOgpData(doc: HTMLDocument, baseUrl: string): OgpData {
-  const ogpUrl = extractOgpUrl(doc);
+export function extractMetaData(doc: HTMLDocument, baseUrl: string): MetaData {
+  const metaUrl = extractMetaUrl(doc);
   return {
     title: extractTitle(doc),
-    ogpImageUrl: extractOgpImageUrl(doc, baseUrl),
-    url: ogpUrl || baseUrl, // Use og:url if available, otherwise fallback to baseUrl
+    imageUrl: extractImageUrl(doc, baseUrl),
+    type: extractMetaType(doc), // Added: Extract og:type
+    url: metaUrl || baseUrl, // Use og:url if available, otherwise fallback to baseUrl
   };
 }
 
@@ -73,13 +85,13 @@ function extractTitle(doc: HTMLDocument): string | null {
 }
 
 /**
- * Extracts the OGP image URL from the HTML document.
+ * Extracts the image URL (og:image) from the HTML document.
  * Resolves relative URLs against the base URL.
  * @param doc The parsed HTMLDocument.
  * @param baseUrl The base URL for resolving relative paths.
- * @returns The absolute OGP image URL or null if not found or invalid.
+ * @returns The absolute image URL or null if not found or invalid.
  */
-function extractOgpImageUrl(doc: HTMLDocument, baseUrl: string): string | null {
+function extractImageUrl(doc: HTMLDocument, baseUrl: string): string | null {
   const metaElement = doc.querySelector('meta[property="og:image"]');
   const imageUrl = metaElement?.getAttribute("content");
 

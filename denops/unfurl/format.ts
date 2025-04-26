@@ -1,34 +1,36 @@
 import type { Denops } from "./deps.ts";
 import { helper } from "./deps.ts";
-import type { OgpData } from "./html.ts";
+import type { MetaData } from "./html.ts";
 
 /**
- * Represents the processed OGP data ready for insertion.
+ * Represents the processed metadata ready for insertion.
  */
-export type ProcessedOgpData = {
+export type ProcessedMetaData = {
   markdownLink: string | null;
   imageUrl: string | null;
+  type: string | null; // Added: og:type
   url: string; // Added: URL (og:url or original)
 };
 
 /**
- * Processes the extracted OGP data into a format suitable for insertion.
+ * Processes the extracted metadata into a format suitable for insertion.
  * Logs information about found data.
  * @param denops The Denops instance.
- * @param data The extracted OgpData.
+ * @param data The extracted MetaData.
  * @param originalUrl The original URL that was unfurled.
- * @returns A Promise resolving to the ProcessedOgpData.
+ * @returns A Promise resolving to the ProcessedMetaData.
  */
-export async function processOgpData(denops: Denops, data: OgpData, originalUrl: string): Promise<ProcessedOgpData> {
-  // Use the URL from OgpData (prioritizes og:url)
+export async function processMetaData(denops: Denops, data: MetaData, originalUrl: string): Promise<ProcessedMetaData> {
+  // Use the URL from MetaData (prioritizes og:url)
   const urlToUse = data.url;
   const markdownLink = data.title ? createMarkdownLink(data.title, urlToUse) : null;
-  const imageUrl = data.ogpImageUrl;
+  const imageUrl = data.imageUrl; // Changed from data.ogpImageUrl
+  const metaType = data.type; // Changed from data.ogType
 
   if (imageUrl) {
-    await helper.echo(denops, `OGP image URL found: ${imageUrl}`);
+    await helper.echo(denops, `Image URL found: ${imageUrl}`); // Changed log message
   } else {
-    await helper.echo(denops, "Could not find OGP image URL.");
+    await helper.echo(denops, "Could not find image URL."); // Changed log message
   }
 
   if (data.title) {
@@ -37,18 +39,31 @@ export async function processOgpData(denops: Denops, data: OgpData, originalUrl:
     await helper.echo(denops, "Could not find title.");
   }
 
-  return { markdownLink, imageUrl, url: urlToUse };
+  // Added: Log og:type if found
+  if (metaType) { // Changed variable name
+    await helper.echo(denops, `Meta type found: ${metaType}`); // Changed log message and variable
+  } else {
+    await helper.echo(denops, "Could not find meta type."); // Changed log message
+  }
+
+
+  return { markdownLink, imageUrl, type: metaType, url: urlToUse }; // Changed property name and variable
 }
 
 /**
- * Inserts the processed OGP data (Markdown link and/or image) into the current buffer.
+ * Inserts the processed metadata (Markdown link and/or image) into the current buffer.
  * @param denops The Denops instance.
  * @param processedData The data to insert.
  * @param _url The original URL (now unused, URL comes from processedData).
  */
-export async function insertDataIntoBuffer(denops: Denops, processedData: ProcessedOgpData, _url: string): Promise<void> {
+export async function insertDataIntoBuffer(denops: Denops, processedData: ProcessedMetaData, _url: string): Promise<void> { // Changed type
   const linesToInsert: string[] = [];
-  let titleForAlt = "ogp-image";
+  let titleForAlt = "meta-image"; // Changed default alt text
+
+  // Added: Insert og:type if available
+  if (processedData.type) { // Changed property name
+    linesToInsert.push(`(Type: ${processedData.type})`); // Changed property name
+  }
 
   if (processedData.markdownLink) {
     linesToInsert.push(processedData.markdownLink);
@@ -65,10 +80,10 @@ export async function insertDataIntoBuffer(denops: Denops, processedData: Proces
   if (linesToInsert.length > 0) {
     await denops.call("append", ".", linesToInsert);
     // Use the URL from processedData for logging
-    await helper.echo(denops, `Inserted OGP data for ${processedData.url}`);
+    await helper.echo(denops, `Inserted metadata for ${processedData.url}`); // Changed log message
   } else {
     // Use the URL from processedData for logging
-    await helper.echo(denops, `No OGP data (title or image URL) found to insert for ${processedData.url}.`);
+    await helper.echo(denops, `No metadata (title or image URL) found to insert for ${processedData.url}.`); // Changed log message
   }
 }
 
