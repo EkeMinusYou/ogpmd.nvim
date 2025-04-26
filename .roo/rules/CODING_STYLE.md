@@ -5,9 +5,8 @@ This document outlines specific coding style rules for this project to maintain 
 ## Imports
 
 - **Remove Unused Imports**: Ensure that all imported modules, classes, functions, or variables are actually used within the file. Remove any imports that are no longer necessary. Commenting out unused imports is not sufficient; they should be completely deleted.
-- **Use `deno.jsonc` for Dependency Management**: Always manage dependencies through the `imports` field in `deno.jsonc`. Do not import dependencies directly using URLs or file paths in the code.
-- **Update `deno.jsonc` for Changes**: When adding or updating dependencies, use commands like `deno add <dependency>` or manually edit `deno.jsonc` to reflect the changes. Ensure the lock file (`deno.lock`) is updated accordingly if necessary.
-- **Import via Aliases**: In your code, always import dependencies using the aliases defined in `deno.jsonc`.
+- **Use `deps.ts` for Dependency Management**: Manage all external dependencies within the `denops/PLUGIN_NAME/deps.ts` file. Re-export modules from this file.
+- **Import from `deps.ts`**: In the main plugin code (`denops/PLUGIN_NAME/main.ts` and other modules), import dependencies exclusively from the `./deps.ts` file using relative paths. Do not import directly from URLs or other external sources in the main code files.
 
 ## Comments
 
