@@ -1,4 +1,5 @@
 import { DOMParser, type HTMLDocument } from "./deps.ts";
+import { fetchTwitterMetadata } from "./twitter.ts"; // Import fetchTwitterMetadata
 
 export type MetaData = {
   title: string | null;
@@ -7,10 +8,22 @@ export type MetaData = {
   url: string;
 };
 
-export async function fetchMetadata(url: string): Promise<MetaData> {
-  const doc = await fetchHtml(url);
-  const metadata = getMetadata(doc, url);
-  return metadata;
+export async function fetchMetadata(urlString: string): Promise<MetaData> {
+  try {
+    const url = new URL(urlString);
+    const hostname = url.hostname;
+
+    if (hostname === "twitter.com" || hostname === "x.com") {
+      return await fetchTwitterMetadata(urlString);
+    }
+    const doc = await fetchHtml(urlString);
+    const metadata = getMetadata(doc, urlString);
+    return metadata;
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`Error fetching metadata for ${urlString}: ${errorMessage}`);
+    throw new Error(`Failed to fetch metadata for ${urlString}: ${errorMessage}`);
+  }
 }
 
 async function fetchHtml(url: string): Promise<HTMLDocument> {
@@ -30,7 +43,7 @@ async function fetchHtml(url: string): Promise<HTMLDocument> {
   return doc;
 }
 
-function getMetadata(doc: HTMLDocument, baseUrl: string): MetaData {
+export function getMetadata(doc: HTMLDocument, baseUrl: string): MetaData {
   const metaUrl = getUrl(doc);
   return {
     title: getTitle(doc),
@@ -51,14 +64,12 @@ function getType(doc: HTMLDocument): string | null {
 }
 
 function getTitle(doc: HTMLDocument): string | null {
-  // Try to get og:title first
   const ogTitleElement = doc.querySelector('meta[property="og:title"]');
   const ogTitle = ogTitleElement?.getAttribute("content")?.trim();
   if (ogTitle) {
     return ogTitle;
   }
 
-  // Fallback to the <title> tag
   const titleElement = doc.querySelector("title");
   return titleElement?.textContent?.trim() || null;
 }
@@ -75,9 +86,8 @@ function getImageUrl(doc: HTMLDocument, baseUrl: string): string | null {
       try {
         return new URL(imageUrl, baseUrl).href;
       } catch (resolveError) {
-        throw new Error(
-          `Failed to resolve relative image URL "${imageUrl}" against base "${baseUrl}": ${resolveError}`,
-        );
+        console.error(`Failed to resolve relative image URL "${imageUrl}" against base "${baseUrl}":`, resolveError);
+        return null;
       }
     }
   }
