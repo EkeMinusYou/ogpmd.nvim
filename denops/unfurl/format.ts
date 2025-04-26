@@ -60,21 +60,23 @@ export async function insertDataIntoBuffer(denops: Denops, processedData: Proces
   const linesToInsert: string[] = [];
   let titleForAlt = "meta-image"; // Changed default alt text
 
-  // Added: Insert og:type if available
-  if (processedData.type) { // Changed property name
-    linesToInsert.push(`(Type: ${processedData.type})`); // Changed property name
-  }
-
+  // Insert title (markdownLink) first
   if (processedData.markdownLink) {
     linesToInsert.push(processedData.markdownLink);
     const match = processedData.markdownLink.match(/^\[(.*?)\]\(.*\)$/);
     if (match?.[1]) {
-      titleForAlt = match[1];
+      titleForAlt = match[1]; // Keep for potential future use with image alt text
     }
   }
 
+  // Then insert type
+  if (processedData.type) { // Changed property name
+    linesToInsert.push(`(Type: ${processedData.type})`); // Changed property name
+  }
+
+  // Finally insert imageUrl
   if (processedData.imageUrl) {
-    linesToInsert.push(processedData.imageUrl);
+    linesToInsert.push(processedData.imageUrl); // Keep original logic for image URL
   }
 
   if (linesToInsert.length > 0) {
