@@ -49,3 +49,8 @@ Increased the default value to 5000ms.
 
 - **Separate Commits by Scope**: Changes related to different scopes (e.g., `core`, `deps`, `docs`) should generally be separated into distinct commits.
 - **Atomic Commits**: Aim for atomic commits where each commit represents a single logical change within its scope. This helps in understanding the history and reverting changes if necessary.
+
+## コミットの完全性 (Commit Completeness)
+
+- **全変更の確認**: コミットを確定する前に `git status` を実行し、意図したすべての変更（新規ファイルを含む）がステージングされていることを確認してください。意図的に関連のない変更を分割する場合を除き、部分的なコミットは避けてください。
+- **ステージングされた変更のレビュー**: `git diff --staged` を使用して、コミットされる正確な変更内容を確認してください。これにより、意図しない変更や漏れを発見できます。
