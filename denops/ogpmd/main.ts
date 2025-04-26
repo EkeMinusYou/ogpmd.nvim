@@ -1,6 +1,6 @@
-import type { Denops } from "jsr:@denops/core@^7.0.0";
-import * as helper from "jsr:@denops/std@^7.0.0/helper";
-import { DOMParser, type HTMLDocument } from "https://deno.land/x/deno_dom@v0.1.47/deno-dom-wasm.ts";
+import type { Denops } from "@denops/core";
+import * as helper from "@denops/std/helper";
+import { DOMParser, type HTMLDocument } from "deno_dom";
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
     async fetchOgpmd(args: unknown): Promise<void> {
