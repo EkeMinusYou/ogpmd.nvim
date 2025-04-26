@@ -19,14 +19,12 @@ export type ProcessedMetaData = {
  * @param originalUrl The original URL that was unfurled.
  * @returns A Promise resolving to the ProcessedMetaData.
  */
-export async function processMetaData(_denops: Denops, data: MetaData, _originalUrl: string): Promise<ProcessedMetaData> {
+export function processMetaData(_denops: Denops, data: MetaData, _originalUrl: string): ProcessedMetaData {
   // Use the URL from MetaData (prioritizes og:url)
   const urlToUse = data.url;
   const markdownLink = data.title ? createMarkdownLink(data.title, urlToUse) : null;
   const imageUrl = data.imageUrl;
   const metaType = data.type;
-
-  // Removed debug logs
 
   return { markdownLink, imageUrl, type: metaType, url: urlToUse };
 }

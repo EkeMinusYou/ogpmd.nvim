@@ -4,6 +4,7 @@
     "jsr:@core/unknownutil@^4.3.0": "4.3.0",
     "jsr:@denops/core@7": "7.0.1",
     "jsr:@denops/std@7": "7.5.0",
+    "jsr:@denops/std@7.5.0": "7.5.0",
     "jsr:@std/fs@1": "1.0.17",
     "jsr:@std/path@^1.0.2": "1.0.9",
     "jsr:@std/semver@1": "1.0.5",

@@ -43,7 +43,7 @@ async function handleUnfurlRequest(denops: Denops, url: string): Promise<void> {
   // extractMetaData might throw if image URL resolution fails inside extractImageUrl
   const metaData: MetaData = extractMetaData(doc, url);
 
-  const processedData = await processMetaData(denops, metaData, url); // processMetaData no longer uses denops/url
+  const processedData = processMetaData(denops, metaData, url); // processMetaData no longer uses denops/url
   await insertDataIntoBuffer(denops, processedData); // Removed the third argument (url)
 }
 
