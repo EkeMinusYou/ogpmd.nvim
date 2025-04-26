@@ -17,3 +17,26 @@ count++;
 ```
 
 Focus on writing self-documenting code and reserve comments for non-obvious aspects.
+## Error Handling
+
+- **Prefer `.catch()` over `try...catch` for Promises**: When handling errors in asynchronous operations that return Promises, prefer using the `.catch()` method over a `try...catch` block where possible. This often leads to more concise and readable asynchronous code.
+
+Example:
+```typescript
+// Prefer this:
+someAsyncOperation()
+  .then(result => {
+    // handle success
+  })
+  .catch(error => {
+    // handle error
+  });
+
+// Over this, when dealing with a single promise chain:
+try {
+  const result = await someAsyncOperation();
+  // handle success
+} catch (error) {
+  // handle error
+}
+```
