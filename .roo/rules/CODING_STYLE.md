@@ -10,7 +10,7 @@ This document outlines specific coding style rules for this project to maintain 
 
 ## Comments
 
-- **Avoid Obvious Comments**: Do not add comments that merely restate what the code clearly expresses. Comments should explain *why* something is done a certain way or clarify complex logic, not *what* the code is doing if it's straightforward.
+- **Strictly Avoid Obvious Comments**: Do **not** add comments that merely restate what the code clearly expresses. Code that is easy to understand does not need comments explaining *what* it does. Comments should **only** be used to explain *why* something is done a certain way or to clarify genuinely complex logic.
 
 Example of an obvious comment to avoid:
 ```typescript
