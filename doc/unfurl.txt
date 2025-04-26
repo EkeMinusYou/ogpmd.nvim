@@ -1,4 +1,4 @@
-*unfurl.txt*	For Neovim 0.9+ or Vim 8.2+ with Denops	Last change: {date}
+*unfurl.txt*	For Neovim 0.9+ with Denops	Last change: {date}
 
 ==============================================================================
 CONTENTS						*unfurl-contents*
@@ -12,19 +12,19 @@ CONTENTS						*unfurl-contents*
 ==============================================================================
 INTRODUCTION					*unfurl-introduction*
 
-unfurl.nvim is a Neovim/Vim plugin for ... (based on Denops)
+unfurl.nvim is a Neovim plugin that fetches the title and meta information (like image, type) from a given URL and inserts it into the current buffer in Markdown format. It's useful for quickly recording information about web pages when taking notes.
 
 ==============================================================================
 REQUIREMENTS					*unfurl-requirements*
 
-- [Neovim](https://neovim.io/) 0.9+ or [Vim](https://www.vim.org/) 8.2+
+- [Neovim](https://neovim.io/) 0.9+
 - [denops.vim](https://github.com/vim-denops/denops.vim)
 
 ==============================================================================
 INSTALLATION					*unfurl-installation*
 
-Install using your favorite plugin manager. Ensure `denops.vim` is also installed.
-See README.md for examples using lazy.nvim, vim-plug, and dein.vim.
+Install using [lazy.nvim](https://github.com/folke/lazy.nvim). Ensure `denops.vim` is also installed.
+See the README.md for the installation snippet.
 
 ==============================================================================
 USAGE						*unfurl-usage*
