@@ -1,6 +1,5 @@
 import type { Denops } from "jsr:@denops/core@^7.0.0";
 import * as helper from "jsr:@denops/std@^7.0.0/helper";
-// HTML Parser
 import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.47/deno-dom-wasm.ts";
 
 export async function main(denops: Denops): Promise<void> {
@@ -26,7 +25,6 @@ export async function main(denops: Denops): Promise<void> {
         }
         const html = await response.text();
 
-        // Parse HTML and extract title
         let title = "No title found";
         try {
           const doc = new DOMParser().parseFromString(html, "text/html");
