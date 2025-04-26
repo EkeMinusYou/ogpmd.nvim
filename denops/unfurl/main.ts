@@ -5,7 +5,7 @@ export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
     async fetchunfurl(args: unknown): Promise<void> {
       // 1. Validate arguments
-      if (typeof args !== 'string') {
+      if (typeof args !== "string") {
         await helper.echoerr(denops, `Invalid argument type: expected string, got ${typeof args}`);
         return;
       }
@@ -60,7 +60,7 @@ type OgpData = {
 // Represents the processed data ready for insertion
 type ProcessedOgpData = {
   markdownLink: string | null; // Markdown link like [title](url)
-  imageUrl: string | null;     // Direct URL of the OGP image
+  imageUrl: string | null; // Direct URL of the OGP image
 };
 
 // Fetches HTML content from a URL and parses it into a DOM document.
@@ -98,9 +98,9 @@ async function processOgpData(denops: Denops, data: OgpData, originalUrl: string
   }
 
   if (data.title) {
-     await helper.echo(denops, `Title found: ${data.title}`);
+    await helper.echo(denops, `Title found: ${data.title}`);
   } else {
-     await helper.echo(denops, "Could not find title.");
+    await helper.echo(denops, "Could not find title.");
   }
 
   return { markdownLink, imageUrl };
@@ -125,7 +125,7 @@ async function insertDataIntoBuffer(denops: Denops, processedData: ProcessedOgpD
   }
 
   if (linesToInsert.length > 0) {
-    await denops.call('append', '.', linesToInsert);
+    await denops.call("append", ".", linesToInsert);
     await helper.echo(denops, `Inserted OGP data for ${url}`);
   } else {
     await helper.echo(denops, `No OGP data (title or image URL) found to insert for ${url}.`);
@@ -134,14 +134,14 @@ async function insertDataIntoBuffer(denops: Denops, processedData: ProcessedOgpD
 
 // Extracts the title from a parsed HTML document. Returns null if not found.
 function extractTitle(doc: HTMLDocument): string | null {
-  const titleElement = doc.querySelector('title');
+  const titleElement = doc.querySelector("title");
   return titleElement?.textContent?.trim() || null;
 }
 
 // Extracts the OGP image URL from a parsed HTML document, resolving relative URLs.
 function extractOgpImageUrl(doc: HTMLDocument, baseUrl: string): string | null {
   const metaElement = doc.querySelector('meta[property="og:image"]');
-  const imageUrl = metaElement?.getAttribute('content');
+  const imageUrl = metaElement?.getAttribute("content");
 
   if (imageUrl) {
     try {
@@ -164,8 +164,8 @@ function extractOgpImageUrl(doc: HTMLDocument, baseUrl: string): string | null {
 // Creates a Markdown link string from a title and URL.
 function createMarkdownLink(title: string, url: string): string {
   // Clean title (remove newlines) and ensure URL is present
-  const cleanedTitle = title.replace(/[\r\n]+/g, ' ').trim();
-  const targetUrl = url && url !== '#' ? url : '#'; // Use '#' if URL is missing or invalid placeholder
+  const cleanedTitle = title.replace(/[\r\n]+/g, " ").trim();
+  const targetUrl = url && url !== "#" ? url : "#"; // Use '#' if URL is missing or invalid placeholder
   return `[${cleanedTitle}](${targetUrl})`;
 }
 
