@@ -1,5 +1,4 @@
 import { DOMParser, type HTMLDocument } from "./deps.ts";
-import { fetchTwitterOembed, isTwitterUrl } from "./twitter.ts"; // Import from twitter.ts
 
 export type MetaData = {
   title: string | null;
@@ -9,9 +8,6 @@ export type MetaData = {
 };
 
 export async function fetchMetadata(url: string): Promise<MetaData> {
-  if (isTwitterUrl(url)) {
-    return await fetchTwitterOembed(url);
-  }
   const doc = await fetchHtml(url);
   const metadata = getMetadata(doc, url);
   return metadata;
