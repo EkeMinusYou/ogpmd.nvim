@@ -6,6 +6,7 @@ import { DOMParser, type HTMLDocument } from "./deps.ts";
 export type OgpData = {
   title: string | null;
   ogpImageUrl: string | null;
+  url: string; // Added: URL (og:url or original)
 };
 
 /**
@@ -29,15 +30,27 @@ export async function fetchAndParseHtml(url: string): Promise<HTMLDocument> {
 }
 
 /**
- * Extracts OGP data (title and image URL) from the HTML document.
+ * Extracts the OGP URL (og:url) from the HTML document.
+ * @param doc The parsed HTMLDocument.
+ * @returns The og:url content or null if not found.
+ */
+function extractOgpUrl(doc: HTMLDocument): string | null {
+  const metaElement = doc.querySelector('meta[property="og:url"]');
+  return metaElement?.getAttribute("content")?.trim() || null;
+}
+
+/**
+ * Extracts OGP data (title, image URL, and URL) from the HTML document.
  * @param doc The parsed HTMLDocument.
  * @param baseUrl The base URL used to resolve relative image URLs.
  * @returns An OgpData object.
  */
 export function extractOgpData(doc: HTMLDocument, baseUrl: string): OgpData {
+  const ogpUrl = extractOgpUrl(doc);
   return {
     title: extractTitle(doc),
     ogpImageUrl: extractOgpImageUrl(doc, baseUrl),
+    url: ogpUrl || baseUrl, // Use og:url if available, otherwise fallback to baseUrl
   };
 }
 

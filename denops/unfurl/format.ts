@@ -8,6 +8,7 @@ import type { OgpData } from "./html.ts";
 export type ProcessedOgpData = {
   markdownLink: string | null;
   imageUrl: string | null;
+  url: string; // Added: URL (og:url or original)
 };
 
 /**
@@ -19,7 +20,9 @@ export type ProcessedOgpData = {
  * @returns A Promise resolving to the ProcessedOgpData.
  */
 export async function processOgpData(denops: Denops, data: OgpData, originalUrl: string): Promise<ProcessedOgpData> {
-  const markdownLink = data.title ? createMarkdownLink(data.title, originalUrl) : null;
+  // Use the URL from OgpData (prioritizes og:url)
+  const urlToUse = data.url;
+  const markdownLink = data.title ? createMarkdownLink(data.title, urlToUse) : null;
   const imageUrl = data.ogpImageUrl;
 
   if (imageUrl) {
@@ -34,16 +37,16 @@ export async function processOgpData(denops: Denops, data: OgpData, originalUrl:
     await helper.echo(denops, "Could not find title.");
   }
 
-  return { markdownLink, imageUrl };
+  return { markdownLink, imageUrl, url: urlToUse };
 }
 
 /**
  * Inserts the processed OGP data (Markdown link and/or image) into the current buffer.
  * @param denops The Denops instance.
  * @param processedData The data to insert.
- * @param url The original URL (used for logging).
+ * @param _url The original URL (now unused, URL comes from processedData).
  */
-export async function insertDataIntoBuffer(denops: Denops, processedData: ProcessedOgpData, url: string): Promise<void> {
+export async function insertDataIntoBuffer(denops: Denops, processedData: ProcessedOgpData, _url: string): Promise<void> {
   const linesToInsert: string[] = [];
   let titleForAlt = "ogp-image";
 
@@ -61,9 +64,11 @@ export async function insertDataIntoBuffer(denops: Denops, processedData: Proces
 
   if (linesToInsert.length > 0) {
     await denops.call("append", ".", linesToInsert);
-    await helper.echo(denops, `Inserted OGP data for ${url}`);
+    // Use the URL from processedData for logging
+    await helper.echo(denops, `Inserted OGP data for ${processedData.url}`);
   } else {
-    await helper.echo(denops, `No OGP data (title or image URL) found to insert for ${url}.`);
+    // Use the URL from processedData for logging
+    await helper.echo(denops, `No OGP data (title or image URL) found to insert for ${processedData.url}.`);
   }
 }
 
