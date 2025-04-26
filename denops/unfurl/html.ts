@@ -3,12 +3,17 @@ import { DOMParser, type HTMLDocument } from "./deps.ts";
 export type MetaData = {
   title: string | null;
   imageUrl: string | null;
-  type: string | null; // Added: og:type
-  url: string; // Added: URL (og:url or original)
+  type: string | null;
+  url: string;
 };
 
-export async function fetchHtml(url: string): Promise<HTMLDocument> {
-  // Add a common browser User-Agent header
+export async function fetchMetadata(url: string): Promise<MetaData> {
+  const doc = await fetchHtml(url);
+  const metadata = getMetadata(doc, url);
+  return metadata;
+}
+
+async function fetchHtml(url: string): Promise<HTMLDocument> {
   const headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0",
   };
@@ -25,27 +30,27 @@ export async function fetchHtml(url: string): Promise<HTMLDocument> {
   return doc;
 }
 
-function extractMetaUrl(doc: HTMLDocument): string | null {
-  const metaElement = doc.querySelector('meta[property="og:url"]');
-  return metaElement?.getAttribute("content")?.trim() || null;
-}
-
-function extractMetaType(doc: HTMLDocument): string | null {
-  const metaElement = doc.querySelector('meta[property="og:type"]');
-  return metaElement?.getAttribute("content")?.trim() || null;
-}
-
-export function extractMetaData(doc: HTMLDocument, baseUrl: string): MetaData {
-  const metaUrl = extractMetaUrl(doc);
+function getMetadata(doc: HTMLDocument, baseUrl: string): MetaData {
+  const metaUrl = getUrl(doc);
   return {
-    title: extractTitle(doc),
-    imageUrl: extractImageUrl(doc, baseUrl),
-    type: extractMetaType(doc),
+    title: getTitle(doc),
+    imageUrl: getImageUrl(doc, baseUrl),
+    type: getType(doc),
     url: metaUrl || baseUrl,
   };
 }
 
-function extractTitle(doc: HTMLDocument): string | null {
+function getUrl(doc: HTMLDocument): string | null {
+  const metaElement = doc.querySelector('meta[property="og:url"]');
+  return metaElement?.getAttribute("content")?.trim() || null;
+}
+
+function getType(doc: HTMLDocument): string | null {
+  const metaElement = doc.querySelector('meta[property="og:type"]');
+  return metaElement?.getAttribute("content")?.trim() || null;
+}
+
+function getTitle(doc: HTMLDocument): string | null {
   // Try to get og:title first
   const ogTitleElement = doc.querySelector('meta[property="og:title"]');
   const ogTitle = ogTitleElement?.getAttribute("content")?.trim();
@@ -58,7 +63,7 @@ function extractTitle(doc: HTMLDocument): string | null {
   return titleElement?.textContent?.trim() || null;
 }
 
-function extractImageUrl(doc: HTMLDocument, baseUrl: string): string | null {
+function getImageUrl(doc: HTMLDocument, baseUrl: string): string | null {
   const metaElement = doc.querySelector('meta[property="og:image"]');
   const imageUrl = metaElement?.getAttribute("content");
 

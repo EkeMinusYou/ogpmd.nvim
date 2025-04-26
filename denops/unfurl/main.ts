@@ -1,5 +1,5 @@
 import type { Denops } from "./deps.ts";
-import { extractMetaData, fetchHtml } from "./html.ts"; // Import MetaData type
+import { fetchMetadata } from "./html.ts"; // Import MetaData type
 import { format } from "./format.ts";
 import { write } from "./buffer.ts";
 
@@ -32,9 +32,8 @@ export async function main(denops: Denops): Promise<void> {
 }
 
 async function unfurl(denops: Denops, url: string): Promise<void> {
-  const doc = await fetchHtml(url);
-  const metaData = extractMetaData(doc, url);
-  const unfolded = format(metaData);
+  const metadata = await fetchMetadata(url);
+  const unfolded = format(metadata);
   await write(denops, unfolded);
 }
 
