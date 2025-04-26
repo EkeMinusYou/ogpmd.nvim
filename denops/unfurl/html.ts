@@ -1,4 +1,4 @@
-import { DOMParser, type HTMLDocument } from "./deps.ts";
+import { DOMParser, type HTMLDocument, puppeteer, chromeFinder, type puppeteer as PuppeteerTypes } from "./deps.ts"; // puppeteer.Browser を型としてインポートするためにエイリアスを使用
 
 export type MetaData = {
   title: string | null;
@@ -14,20 +14,40 @@ export async function fetchMetadata(url: string): Promise<MetaData> {
 }
 
 async function fetchHtml(url: string): Promise<HTMLDocument> {
-  const headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0",
-  };
-  const response = await fetch(url, { headers });
-  if (!response.ok) {
-    const errorText = await response.text().catch(() => "Could not read error response body");
-    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}\n${errorText}`);
+  let browser: PuppeteerTypes.Browser | undefined; // 型注釈を追加 (エイリアスを使用)
+  try {
+    browser = await puppeteer.launch({
+      headless: true,
+      executablePath: chromeFinder(),
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // 一般的なサンドボックス無効化オプション
+    });
+    const page = await browser.newPage();
+    // User-Agent は puppeteer がデフォルトで設定するため、通常は不要
+    // 必要であれば page.setUserAgent(...) で設定可能
+    const response = await page.goto(url, {
+      waitUntil: "domcontentloaded", // DOMの準備ができたら次に進む
+    });
+
+    if (!response || !response.ok()) {
+      throw new Error(
+        `Failed to fetch ${url}: Status ${response?.status() ?? "unknown"}`,
+      );
+    }
+
+    const html = await page.content();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    if (!doc) {
+      throw new Error(`Failed to parse HTML from ${url}`);
+    }
+    return doc;
+  } catch (error) {
+    // error が Error インスタンスか確認
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`Error fetching or parsing HTML from ${url}:`, error);
+    throw new Error(`Failed to process ${url}: ${errorMessage}`); // 修正: 安全にメッセージを取得
+  } finally {
+    await browser?.close();
   }
-  const html = await response.text();
-  const doc = new DOMParser().parseFromString(html, "text/html");
-  if (!doc) {
-    throw new Error(`Failed to parse HTML from ${url}`);
-  }
-  return doc;
 }
 
 function getMetadata(doc: HTMLDocument, baseUrl: string): MetaData {
@@ -75,9 +95,10 @@ function getImageUrl(doc: HTMLDocument, baseUrl: string): string | null {
       try {
         return new URL(imageUrl, baseUrl).href;
       } catch (resolveError) {
-        throw new Error(
-          `Failed to resolve relative image URL "${imageUrl}" against base "${baseUrl}": ${resolveError}`,
-        );
+        // エラーメッセージを改善
+        console.error(`Failed to resolve relative image URL "${imageUrl}" against base "${baseUrl}":`, resolveError);
+        // エラーを再スローする代わりに null を返すか、より具体的なエラーを投げる
+        return null; // または throw new Error(...)
       }
     }
   }
