@@ -19,6 +19,7 @@ count++;
 ```
 
 Focus on writing self-documenting code and reserve comments for non-obvious aspects.
+- **Remove Temporary Comments**: Ensure that any temporary comments added during development (e.g., debugging `console.log` statements, TODOs for immediate fixes, or temporary notes) are removed before committing the code.
 ## Error Handling
 
 - **Prefer `.catch()` over `try...catch` for Promises**: When handling errors in asynchronous operations that return Promises, prefer using the `.catch()` method over a `try...catch` block where possible. This often leads to more concise and readable asynchronous code.
