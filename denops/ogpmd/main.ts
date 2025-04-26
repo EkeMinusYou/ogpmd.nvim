@@ -1,16 +1,18 @@
 import type { Denops } from "jsr:@denops/core@^7.0.0";
-import * as batch from "jsr:@denops/std@^7.0.0/batch";
 import * as helper from "jsr:@denops/std@^7.0.0/helper";
 // HTML Parser
-import { DOMParser, Element } from "https://deno.land/x/deno_dom@v0.1.47/deno-dom-wasm.ts";
+import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.47/deno-dom-wasm.ts";
 
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
     async fetchUrl(args: unknown): Promise<void> {
-      const url = args as string;
+      if (typeof args !== 'string') {
+        await helper.echoerr(denops, `Invalid argument type: expected string, got ${typeof args}`);
+        return;
+      }
+      const url = args;
       if (!url || !isValidUrl(url)) {
-        await helper.echo(denops, `Invalid URL: ${url}. Usage: Ogpmd <url>`);
-        console.error(`Invalid URL received: ${url}`);
+        await helper.echoerr(denops, `Invalid URL: ${url}. Usage: Ogpmd <url>`);
         return;
       }
 
@@ -19,8 +21,7 @@ export async function main(denops: Denops): Promise<void> {
         const response = await fetch(url);
         if (!response.ok) {
           const errorText = await response.text();
-          await helper.echo(denops, `Failed to fetch ${url}: ${response.status} ${response.statusText}`);
-          console.error(`Failed to fetch ${url}: ${response.status} ${response.statusText}\n${errorText}`);
+          await helper.echoerr(denops, `Failed to fetch ${url}: ${response.status} ${response.statusText}\n${errorText}`);
           return;
         }
         const html = await response.text();
@@ -36,12 +37,10 @@ export async function main(denops: Denops): Promise<void> {
             }
           }
         } catch (parseError) {
-          console.error(`Error parsing HTML from ${url}:`, parseError);
-          await helper.echo(denops, `Error parsing HTML from ${url}.`);
-          // パースエラーが発生しても、HTML自体の表示は試みる
+          await helper.echoerr(denops, `Error parsing HTML from ${url}: ${parseError}`);
         }
 
-        // Insert title before the current cursor line
+        // Insert title after the current cursor line
         if (title !== "No title found") {
           const markdownLink = `[${title.replace(/\n/g, ' ')}](${url})`; // Create markdown link, replace newlines in title
           await denops.call('append', '.', markdownLink); // Append markdown link after the current line
@@ -51,18 +50,14 @@ export async function main(denops: Denops): Promise<void> {
         }
 
       } catch (error) {
-        await helper.echo(denops, `Error fetching ${url}: ${error}`);
-        console.error(`Error fetching ${url}:`, error);
+        await helper.echoerr(denops, `Error fetching ${url}: ${error}`);
       }
     },
   };
 
-  await batch.batch(denops, async (denops) => {
-    await denops.cmd(
-      `command! -nargs=1 Ogpmd call denops#request('${denops.name}', 'fetchUrl', [<f-args>])`,
-    );
-  });
-
+  await denops.cmd(
+    `command! -nargs=1 Ogpmd call denops#request('${denops.name}', 'fetchUrl', [<f-args>])`,
+  );
 }
 
 // Simple URL validation function
