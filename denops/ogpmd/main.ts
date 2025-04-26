@@ -15,47 +15,51 @@ export async function main(denops: Denops): Promise<void> {
         return;
       }
 
-      try {
-        await helper.echo(denops, `Fetching ${url}...`);
-        const response = await fetch(url);
-        if (!response.ok) {
-          const errorText = await response.text();
-          await helper.echoerr(denops, `Failed to fetch ${url}: ${response.status} ${response.statusText}\n${errorText}`);
-          return;
-        }
-        const html = await response.text();
-
-        let title = "No title found";
-        try {
-          const doc = new DOMParser().parseFromString(html, "text/html");
-          if (doc) {
-            const titleElement = doc.querySelector('title');
-            if (titleElement) {
-              title = titleElement.textContent?.trim() || "No title found";
-            }
-          }
-        } catch (parseError) {
-          await helper.echoerr(denops, `Error parsing HTML from ${url}: ${parseError}`);
-        }
-
-        // Insert title after the current cursor line
-        if (title !== "No title found") {
-          const markdownLink = `[${title.replace(/\n/g, ' ')}](${url})`; // Create markdown link, replace newlines in title
-          await denops.call('append', '.', markdownLink); // Append markdown link after the current line
-          await helper.echo(denops, `Inserted: ${markdownLink}`); // Notify user
-        } else {
-          await helper.echo(denops, "Could not find title to insert.");
-        }
-
-      } catch (error) {
-        await helper.echoerr(denops, `Error fetching ${url}: ${error}`);
-      }
+      fetchAndInsertMarkdownLink(denops, url)
+        .catch((error) => {
+          helper.echoerr(denops, `Error processing ${url}: ${error}`);
+        });
     },
   };
 
   await denops.cmd(
     `command! -nargs=1 Ogpmd call denops#request('${denops.name}', 'fetchUrl', [<f-args>])`,
   );
+}
+
+async function fetchAndInsertMarkdownLink(denops: Denops, url: string): Promise<void> {
+  await helper.echo(denops, `Fetching ${url}...`);
+  const response = await fetch(url);
+  if (!response.ok) {
+    // Throw an error if the fetch failed, to be caught by the caller
+    const errorText = await response.text();
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}\n${errorText}`);
+  }
+  const html = await response.text();
+
+  let title = "No title found";
+  try {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    if (doc) {
+      const titleElement = doc.querySelector('title');
+      if (titleElement) {
+        title = titleElement.textContent?.trim() || "No title found";
+      }
+    }
+  } catch (parseError) {
+    // Log parsing error but continue, as we might still want to insert the URL
+    await helper.echoerr(denops, `Error parsing HTML from ${url}: ${parseError}`);
+  }
+
+  // Insert title after the current cursor line
+  if (title !== "No title found") {
+    const markdownLink = `[${title.replace(/\n/g, ' ')}](${url})`; // Create markdown link, replace newlines in title
+    await denops.call('append', '.', markdownLink); // Append markdown link after the current line
+    await helper.echo(denops, `Inserted: ${markdownLink}`); // Notify user
+  } else {
+    // Optionally insert just the URL if title is not found, or do nothing
+    await helper.echo(denops, "Could not find title to insert.");
+  }
 }
 
 // Simple URL validation function
