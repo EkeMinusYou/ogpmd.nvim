@@ -17,7 +17,11 @@ export type MetaData = {
  * @throws If fetching or parsing fails.
  */
 export async function fetchAndParseHtml(url: string): Promise<HTMLDocument> {
-  const response = await fetch(url);
+  // Add a common browser User-Agent header
+  const headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0",
+  };
+  const response = await fetch(url, { headers });
   if (!response.ok) {
     const errorText = await response.text().catch(() => "Could not read error response body");
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}\n${errorText}`);
@@ -107,7 +111,9 @@ function extractImageUrl(doc: HTMLDocument, baseUrl: string): string | null {
         return new URL(imageUrl, baseUrl).href;
       } catch (resolveError) {
         // Throw an error if resolution fails
-        throw new Error(`Failed to resolve relative image URL "${imageUrl}" against base "${baseUrl}": ${resolveError}`);
+        throw new Error(
+          `Failed to resolve relative image URL "${imageUrl}" against base "${baseUrl}": ${resolveError}`,
+        );
       }
     }
   }
