@@ -1,46 +1,46 @@
-*ogpmd.txt*	For Neovim 0.9+ or Vim 8.2+ with Denops	Last change: {date}
+*unfurl.txt*	For Neovim 0.9+ or Vim 8.2+ with Denops	Last change: {date}
 
 ==============================================================================
-CONTENTS						*ogpmd-contents*
+CONTENTS						*unfurl-contents*
 
-1. Introduction				|ogpmd-introduction|
-2. Requirements				|ogpmd-requirements|
-3. Installation				|ogpmd-installation|
-4. Usage					|ogpmd-usage|
-5. Commands				|ogpmd-commands|
-
-==============================================================================
-INTRODUCTION					*ogpmd-introduction*
-
-ogpmd.nvim is a Neovim/Vim plugin for ... (based on Denops)
+1. Introduction				|unfurl-introduction|
+2. Requirements				|unfurl-requirements|
+3. Installation				|unfurl-installation|
+4. Usage					|unfurl-usage|
+5. Commands				|unfurl-commands|
 
 ==============================================================================
-REQUIREMENTS					*ogpmd-requirements*
+INTRODUCTION					*unfurl-introduction*
+
+unfurl.nvim is a Neovim/Vim plugin for ... (based on Denops)
+
+==============================================================================
+REQUIREMENTS					*unfurl-requirements*
 
 - [Neovim](https://neovim.io/) 0.9+ or [Vim](https://www.vim.org/) 8.2+
 - [denops.vim](https://github.com/vim-denops/denops.vim)
 
 ==============================================================================
-INSTALLATION					*ogpmd-installation*
+INSTALLATION					*unfurl-installation*
 
 Install using your favorite plugin manager. Ensure `denops.vim` is also installed.
 See README.md for examples using lazy.nvim, vim-plug, and dein.vim.
 
 ==============================================================================
-USAGE						*ogpmd-usage*
+USAGE						*unfurl-usage*
 
-This plugin provides commands for basic interaction. See |ogpmd-commands|.
+This plugin provides commands for basic interaction. See |unfurl-commands|.
 
 ==============================================================================
-COMMANDS					*ogpmd-commands*
+COMMANDS					*unfurl-commands*
 
-*:Ogpmd* {url}
+*:Unfurl* {url}
 	Fetches the HTML title and OGP image (if available) from the specified
 	{url}. Inserts the title as a Markdown link (`[title](url)`) and the
 	OGP image's Base64 encoded string directly after the current cursor line.
 	Example:
 >
-	:Ogpmd https://github.com
+	:Unfurl https://github.com
 <
 	(`[GitHub: Let’s build from here · GitHub](https://github.com)` and
 	 the raw Base64 string of the OGP image might be inserted below the current line)

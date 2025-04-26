@@ -1,0 +1,4 @@
+export type { Denops } from "jsr:@denops/core@^7.0.0";
+export * as helper from "jsr:@denops/std@^7.0.0/helper";
+export { DOMParser } from "https://deno.land/x/deno_dom@v0.1.47/deno-dom-wasm.ts";
+export type { HTMLDocument } from "https://deno.land/x/deno_dom@v0.1.47/deno-dom-wasm.ts";

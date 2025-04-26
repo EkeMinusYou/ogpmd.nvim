@@ -1,4 +1,4 @@
-# ogpmd.nvim (Denops version)
+# unfurl.nvim (Denops version)
 
 (ここにプラグインの簡単な説明を記述)
 
@@ -15,7 +15,7 @@ Use your favorite plugin manager.
 
 ```lua
 {
-  'EkeMinusYou/ogpmd.nvim',
+  'EkeMinusYou/unfurl.nvim',
   dependencies = { 'vim-denops/denops.vim' },
   -- No config function needed for basic Denops plugins unless specific setup is required
 }
@@ -25,22 +25,22 @@ Use your favorite plugin manager.
 
 ```vim
 Plug 'vim-denops/denops.vim'
-Plug 'EkeMinusYou/ogpmd.nvim'
+Plug 'EkeMinusYou/unfurl.nvim'
 ```
 
 ### [dein.vim](https://github.com/Shougo/dein.vim)
 
 ```vim
 call dein#add('vim-denops/denops.vim')
-call dein#add('EkeMinusYou/ogpmd.nvim')
+call dein#add('EkeMinusYou/unfurl.nvim')
 ```
 
 ## Usage
 
-After installing the plugin, you can use the `Ogpmd` command:
+After installing the plugin, you can use the `unfurl` command:
 
 ```vim
-:Ogpmd https://example.com
+:Unfurl https://example.com
 ```
 
 This will fetch the HTML title and the OGP image (if available) from the specified URL. It will then insert the title as a Markdown link (`[title](url)`) and the OGP image's Base64 encoded string directly after the current cursor line in the buffer.

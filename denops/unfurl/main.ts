@@ -1,9 +1,9 @@
-import type { Denops } from "@denops/core";
-import * as helper from "@denops/std/helper";
-import { DOMParser, type HTMLDocument } from "deno_dom";
+import type { Denops } from "./deps.ts";
+import { helper } from "./deps.ts";
+import { DOMParser, type HTMLDocument } from "./deps.ts";
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
-    async fetchOgpmd(args: unknown): Promise<void> {
+    async fetchunfurl(args: unknown): Promise<void> {
       // 1. Validate arguments
       if (typeof args !== 'string') {
         await helper.echoerr(denops, `Invalid argument type: expected string, got ${typeof args}`);
@@ -11,13 +11,13 @@ export async function main(denops: Denops): Promise<void> {
       }
       const url = args;
       if (!isValidUrl(url)) {
-        await helper.echoerr(denops, `Invalid URL: ${url}. Usage: Ogpmd <url>`);
+        await helper.echoerr(denops, `Invalid URL: ${url}. Usage: unfurl <url>`);
         return;
       }
 
       // 2. Execute main logic with error handling
       await helper.echo(denops, `Fetching OGP data for ${url}...`);
-      handleOgpmdRequest(denops, url)
+      handleunfurlRequest(denops, url)
         .then(() => {
           helper.echo(denops, `Successfully processed ${url}`);
         })
@@ -29,13 +29,13 @@ export async function main(denops: Denops): Promise<void> {
 
   // Register the command
   await denops.cmd(
-    `command! -nargs=1 Ogpmd call denops#request('${denops.name}', 'fetchOgpmd', [<f-args>])`,
+    `command! -nargs=1 Unfurl call denops#request('${denops.name}', 'fetchunfurl', [<f-args>])`,
   );
 }
 
 // --- Main Logic Handler ---
 
-async function handleOgpmdRequest(denops: Denops, url: string): Promise<void> {
+async function handleunfurlRequest(denops: Denops, url: string): Promise<void> {
   // 1. Fetch and parse HTML
   const doc = await fetchAndParseHtml(url);
 
