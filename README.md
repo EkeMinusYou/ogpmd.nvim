@@ -43,7 +43,7 @@ After installing the plugin, you can use the `Ogpmd` command:
 :Ogpmd https://example.com
 ```
 
-This will fetch the HTML title from the specified URL and insert it after the current cursor line in the buffer.
+This will fetch the HTML title from the specified URL and insert it as a Markdown link (`[title](url)`) after the current cursor line in the buffer.
 
 ## Configuration
 

@@ -43,8 +43,9 @@ export async function main(denops: Denops): Promise<void> {
 
         // Insert title before the current cursor line
         if (title !== "No title found") {
-          await denops.call('append', '.', title.split('\n')); // Append title lines after the current line
-          await helper.echo(denops, `Inserted title: ${title}`); // Notify user
+          const markdownLink = `[${title.replace(/\n/g, ' ')}](${url})`; // Create markdown link, replace newlines in title
+          await denops.call('append', '.', markdownLink); // Append markdown link after the current line
+          await helper.echo(denops, `Inserted: ${markdownLink}`); // Notify user
         } else {
           await helper.echo(denops, "Could not find title to insert.");
         }

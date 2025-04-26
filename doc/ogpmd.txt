@@ -35,12 +35,12 @@ This plugin provides commands for basic interaction. See |ogpmd-commands|.
 COMMANDS					*ogpmd-commands*
 
 *:Ogpmd* {url}
-	Fetches the HTML title from the specified {url} and inserts it after the
-	current cursor line. Example:
+	Fetches the HTML title from the specified {url} and inserts it as a
+	Markdown link (`[title](url)`) after the current cursor line. Example:
 >
 	:Ogpmd https://example.com
 <
-	(The title of the example.com page will be inserted below the current line)
+	(`[Example Domain](https://example.com)` will be inserted below the current line)
 
 ==============================================================================
  vim:tw=78:ts=8:ft=help:norl:
