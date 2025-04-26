@@ -4,7 +4,7 @@ import { DOMParser, type HTMLDocument } from "./deps.ts";
 
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
-    async fetchUnfurl(args: unknown): Promise<void> {
+    async unfurl(args: unknown): Promise<void> {
       if (typeof args !== "string") {
         await helper.echoerr(denops, `Invalid argument type: expected string, got ${typeof args}`);
         return;
@@ -16,7 +16,7 @@ export async function main(denops: Denops): Promise<void> {
       }
 
       await helper.echo(denops, `Fetching OGP data for ${url}...`);
-      handleunfurlRequest(denops, url)
+      handleUnfurlRequest(denops, url)
         .then(() => {
           helper.echo(denops, `Successfully processed ${url}`);
         })
@@ -27,17 +27,14 @@ export async function main(denops: Denops): Promise<void> {
   };
 
   await denops.cmd(
-    `command! -nargs=1 Unfurl call denops#request('${denops.name}', 'fetchunfurl', [<f-args>])`,
+    `command! -nargs=1 Unfurl call denops#request('${denops.name}', 'unfurl', [<f-args>])`,
   );
 }
 
-async function handleunfurlRequest(denops: Denops, url: string): Promise<void> {
+async function handleUnfurlRequest(denops: Denops, url: string): Promise<void> {
   const doc = await fetchAndParseHtml(url);
-
   const ogpData = extractOgpData(doc, url);
-
   const processedData = await processOgpData(denops, ogpData, url);
-
   await insertDataIntoBuffer(denops, processedData, url);
 }
 
