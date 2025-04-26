@@ -35,12 +35,15 @@ This plugin provides commands for basic interaction. See |ogpmd-commands|.
 COMMANDS					*ogpmd-commands*
 
 *:Ogpmd* {url}
-	Fetches the HTML title from the specified {url} and inserts it as a
-	Markdown link (`[title](url)`) after the current cursor line. Example:
+	Fetches the HTML title and OGP image (if available) from the specified
+	{url}. Inserts the title as a Markdown link (`[title](url)`) and the
+	OGP image's Base64 encoded string directly after the current cursor line.
+	Example:
 >
-	:Ogpmd https://example.com
+	:Ogpmd https://github.com
 <
-	(`[Example Domain](https://example.com)` will be inserted below the current line)
+	(`[GitHub: Let’s build from here · GitHub](https://github.com)` and
+	 the raw Base64 string of the OGP image might be inserted below the current line)
 
 ==============================================================================
  vim:tw=78:ts=8:ft=help:norl:

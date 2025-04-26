@@ -5,7 +5,9 @@
   "imports": {
     "jsr:@denops/core@^7.0.0": "jsr:@denops/core@^7.0.0",
     "jsr:@denops/std@^7.0.0": "jsr:@denops/std@^7.0.0",
-    "jsr:@denops/std@^7.0.0/": "jsr:@denops/std@^7.0.0/"
+    "jsr:@denops/std@^7.0.0/": "jsr:@denops/std@^7.0.0/",
+    "jsr:@std/encoding@^0.224.3/base64": "jsr:@std/encoding@^0.224.3/base64",
+    "deno_dom": "https://deno.land/x/deno_dom@v0.1.47/deno-dom-wasm.ts"
   },
   "fmt": {
     "options": {

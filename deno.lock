@@ -4,6 +4,7 @@
     "jsr:@core/unknownutil@^4.3.0": "4.3.0",
     "jsr:@denops/core@7": "7.0.1",
     "jsr:@denops/std@7": "7.4.0",
+    "jsr:@std/encoding@~0.224.3": "0.224.3",
     "jsr:@std/fs@1": "1.0.4",
     "jsr:@std/path@^1.0.2": "1.0.6",
     "jsr:@std/semver@1": "1.0.3",
@@ -26,6 +27,9 @@
         "jsr:@std/semver",
         "jsr:@std/ulid"
       ]
+    },
+    "@std/encoding@0.224.3": {
+      "integrity": "5e861b6d81be5359fad4155e591acf17c0207b595112d1840998bb9f476dbdaf"
     },
     "@std/fs@1.0.4": {
       "integrity": "2907d32d8d1d9e540588fd5fe0ec21ee638134bd51df327ad4e443aaef07123c"
@@ -67,7 +71,8 @@
   "workspace": {
     "dependencies": [
       "jsr:@denops/core@7",
-      "jsr:@denops/std@7"
+      "jsr:@denops/std@7",
+      "jsr:@std/encoding@~0.224.3"
     ]
   }
 }
