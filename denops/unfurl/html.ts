@@ -47,6 +47,14 @@ export function extractOgpData(doc: HTMLDocument, baseUrl: string): OgpData {
  * @returns The trimmed title text or null if not found.
  */
 function extractTitle(doc: HTMLDocument): string | null {
+  // Try to get og:title first
+  const ogTitleElement = doc.querySelector('meta[property="og:title"]');
+  const ogTitle = ogTitleElement?.getAttribute("content")?.trim();
+  if (ogTitle) {
+    return ogTitle;
+  }
+
+  // Fallback to the <title> tag
   const titleElement = doc.querySelector("title");
   return titleElement?.textContent?.trim() || null;
 }
