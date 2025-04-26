@@ -36,7 +36,21 @@ async function fetchAndInsertMarkdownLink(denops: Denops, url: string): Promise<
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}\n${errorText}`);
   }
   const html = await response.text();
+  const title = await extractTitleFromHtml(html, denops, url); // Pass url for logging context
 
+  // Insert title after the current cursor line
+  if (title !== "No title found") {
+    const markdownLink = createMarkdownLink(title, url);
+    await denops.call('append', '.', markdownLink); // Append markdown link after the current line
+    await helper.echo(denops, `Inserted: ${markdownLink}`); // Notify user
+  } else {
+    // Optionally insert just the URL if title is not found, or do nothing
+    await helper.echo(denops, "Could not find title to insert.");
+  }
+}
+
+// Extracts the title from an HTML string
+async function extractTitleFromHtml(html: string, denops: Denops, url: string): Promise<string> {
   let title = "No title found";
   try {
     const doc = new DOMParser().parseFromString(html, "text/html");
@@ -47,19 +61,17 @@ async function fetchAndInsertMarkdownLink(denops: Denops, url: string): Promise<
       }
     }
   } catch (parseError) {
-    // Log parsing error but continue, as we might still want to insert the URL
+    // Log parsing error but return default title
     await helper.echoerr(denops, `Error parsing HTML from ${url}: ${parseError}`);
   }
+  return title;
+}
 
-  // Insert title after the current cursor line
-  if (title !== "No title found") {
-    const markdownLink = `[${title.replace(/\n/g, ' ')}](${url})`; // Create markdown link, replace newlines in title
-    await denops.call('append', '.', markdownLink); // Append markdown link after the current line
-    await helper.echo(denops, `Inserted: ${markdownLink}`); // Notify user
-  } else {
-    // Optionally insert just the URL if title is not found, or do nothing
-    await helper.echo(denops, "Could not find title to insert.");
-  }
+// Creates a Markdown link string from a title and URL
+function createMarkdownLink(title: string, url: string): string {
+  // Replace newlines in title with spaces for single-line display in Markdown
+  const cleanedTitle = title.replace(/\n/g, ' ');
+  return `[${cleanedTitle}](${url})`;
 }
 
 // Simple URL validation function
