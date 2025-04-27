@@ -4,7 +4,7 @@ This document outlines specific coding style rules for this project to maintain 
 
 ## Imports
 
-- **Remove Unused Imports**: Ensure that all imported modules, classes, functions, or variables are actually used within the file. Remove any imports that are no longer necessary. Commenting out unused imports is not sufficient; they should be completely deleted.
+- **Strictly Remove Unused Imports**: Ensure that all imported modules, classes, functions, or variables are actually used within the file. **Remove any imports that are no longer necessary.** Commenting out unused imports is not sufficient; they must be completely deleted.
 - **Use `deps.ts` for Dependency Management**: Manage all external dependencies within the `denops/PLUGIN_NAME/deps.ts` file. Re-export modules from this file.
 - **Import from `deps.ts`**: In the main plugin code (`denops/PLUGIN_NAME/main.ts` and other modules), import dependencies exclusively from the `./deps.ts` file using relative paths. Do not import directly from URLs or other external sources in the main code files.
 
