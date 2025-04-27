@@ -19,8 +19,16 @@ export function format(data: Metadata): string[] {
       outputs.push(buildBlockquote(data.description));
     }
   } else if (data.type === "twitter") {
-    const markdownLink = buildLink("Twitter Link", urlToUse);
-    outputs.push(markdownLink);
+    if (data.siteName) {
+      outputs.push(buildBlockquote(buildEmphasis(data.siteName)));
+    }
+    const link = data.authorUrl ? buildLink(data.authorName, urlToUse) : null;
+    if (link) {
+      outputs.push(buildBlockquote(link));
+    }
+    if (data.tweetText) {
+      outputs.push(buildBlockquote(data.tweetText));
+    }
   }
 
   return outputs;
