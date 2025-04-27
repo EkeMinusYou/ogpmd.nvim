@@ -1,13 +1,13 @@
 import { DOMParser, type HTMLDocument } from "./deps.ts";
 import { fetchTwitterMetadata } from "./twitter.ts"; // Import fetchTwitterMetadata
 
-export type MetaData = {
+export type Metadata = {
   title: string | null;
   imageUrl: string | null;
   url: string;
 };
 
-export async function fetchMetadata(urlString: string): Promise<MetaData> {
+export async function fetchMetadata(urlString: string): Promise<Metadata> {
   try {
     const url = new URL(urlString);
     const hostname = url.hostname;
@@ -42,7 +42,7 @@ async function fetchHtml(url: string): Promise<HTMLDocument> {
   return doc;
 }
 
-export function getMetadata(doc: HTMLDocument, baseUrl: string): MetaData {
+export function getMetadata(doc: HTMLDocument, baseUrl: string): Metadata {
   const metaUrl = getUrl(doc);
   return {
     title: getTitle(doc),

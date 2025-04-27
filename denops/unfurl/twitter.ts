@@ -1,7 +1,7 @@
 import { chromeFinder, DOMParser, puppeteer } from "./deps.ts";
-import { getMetadata, type MetaData } from "./html.ts"; // Import necessary functions and type
+import { getMetadata, type Metadata } from "./html.ts"; // Import necessary functions and type
 
-export const fetchTwitterMetadata = async (url: string): Promise<MetaData> => { // Change return type
+export const fetchTwitterMetadata = async (url: string): Promise<Metadata> => { // Change return type
   let browser: puppeteer.Browser | undefined;
   try {
     browser = await puppeteer.launch({

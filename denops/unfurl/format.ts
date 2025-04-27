@@ -1,6 +1,6 @@
-import type { MetaData } from "./html.ts";
+import type { Metadata } from "./html.ts";
 
-export function format(data: MetaData): string[] {
+export function format(data: Metadata): string[] {
   const urlToUse = data.url;
   const markdownLink = data.title ? createMarkdownLink(data.title, urlToUse) : null;
   const imageUrl = data.imageUrl;
