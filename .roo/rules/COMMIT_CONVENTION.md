@@ -45,6 +45,8 @@ fix(config): correct default value for timeout option
 
 The default timeout was too short, causing issues on slower connections.
 Increased the default value to 5000ms.
+```
+
 ## Commit Granularity
 
 - **Separate Commits by Scope**: Changes related to different scopes (e.g., `core`, `deps`, `docs`) should generally be separated into distinct commits.
