@@ -6,6 +6,7 @@
 
 - [Neovim](https://neovim.io/) 0.9+
 - [denops.vim](https://github.com/vim-denops/denops.vim)
+- [img-clip.nvim](https://github.com/HakonHarnes/img-clip.nvim)
 
 ## Installation
 
@@ -14,7 +15,7 @@ Use [lazy.nvim](https://github.com/folke/lazy.nvim) to install:
 ```lua
 {
   'EkeMinusYou/unfurl.nvim',
-  dependencies = { 'vim-denops/denops.vim' },
+  dependencies = { 'vim-denops/denops.vim', 'HakonHarnes/img-clip.nvim' },
   -- No config function needed for basic Denops plugins unless specific setup is required
 }
 ```
@@ -23,7 +24,7 @@ Use [lazy.nvim](https://github.com/folke/lazy.nvim) to install:
 
 After installing the plugin, you can use the `unfurl` command:
 
-```vim
+```
 :Unfurl https://example.com
 ```
 

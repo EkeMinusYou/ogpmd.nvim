@@ -19,6 +19,7 @@ REQUIREMENTS					*unfurl-requirements*
 
 - [Neovim](https://neovim.io/) 0.9+
 - [denops.vim](https://github.com/vim-denops/denops.vim)
+- [img-clip.nvim](https://github.com/HakonHarnes/img-clip.nvim)
 
 ==============================================================================
 INSTALLATION					*unfurl-installation*
