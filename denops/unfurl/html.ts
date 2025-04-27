@@ -4,7 +4,6 @@ import { fetchTwitterMetadata } from "./twitter.ts"; // Import fetchTwitterMetad
 export type MetaData = {
   title: string | null;
   imageUrl: string | null;
-  type: string | null;
   url: string;
 };
 
@@ -48,18 +47,12 @@ export function getMetadata(doc: HTMLDocument, baseUrl: string): MetaData {
   return {
     title: getTitle(doc),
     imageUrl: getImageUrl(doc, baseUrl),
-    type: getType(doc),
     url: metaUrl || baseUrl,
   };
 }
 
 function getUrl(doc: HTMLDocument): string | null {
   const metaElement = doc.querySelector('meta[property="og:url"]');
-  return metaElement?.getAttribute("content")?.trim() || null;
-}
-
-function getType(doc: HTMLDocument): string | null {
-  const metaElement = doc.querySelector('meta[property="og:type"]');
   return metaElement?.getAttribute("content")?.trim() || null;
 }
 
