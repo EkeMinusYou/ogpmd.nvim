@@ -55,5 +55,5 @@ Increased the default value to 5000ms.
 ## Commit Completeness
 
 - **Verify All Changes**: Before finalizing a commit, run `git status` to ensure all intended changes (including new files) are staged. Avoid partial commits unless intentionally splitting unrelated changes.
-- **Review Staged Changes**: Use `git diff --staged` to review the exact changes that will be committed. This helps catch unintended modifications or omissions.
+- **Review Staged Changes**: Use `git diff --staged` (or `git --no-pager diff --staged` for direct output without a pager) to review the exact changes that will be committed. This is crucial for catching unintended modifications or omissions and crafting an accurate commit message.
 - **Commits by AI**: When AI (Roo) performs a commit, it should first run `git status` to check for unstaged changes, ensure all relevant files are staged, and then execute `git commit`. It is also recommended to run `git status` again after the commit to verify that no unintended differences remain.
