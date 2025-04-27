@@ -50,8 +50,8 @@ Increased the default value to 5000ms.
 - **Separate Commits by Scope**: Changes related to different scopes (e.g., `core`, `deps`, `docs`) should generally be separated into distinct commits.
 - **Atomic Commits**: Aim for atomic commits where each commit represents a single logical change within its scope. This helps in understanding the history and reverting changes if necessary.
 
-## コミットの完全性 (Commit Completeness)
+## Commit Completeness
 
-- **全変更の確認**: コミットを確定する前に `git status` を実行し、意図したすべての変更（新規ファイルを含む）がステージングされていることを確認してください。意図的に関連のない変更を分割する場合を除き、部分的なコミットは避けてください。
-- **ステージングされた変更のレビュー**: `git diff --staged` を使用して、コミットされる正確な変更内容を確認してください。これにより、意図しない変更や漏れを発見できます。
-- **AIによるコミット**: AI (Roo) がコミットを実行する際は、まず `git status` を実行してステージングされていない変更がないかを確認し、すべての関連ファイルがステージングされていることを確認した上で `git commit` を実行してください。コミット後に再度 `git status` を実行し、意図しない差分が残っていないか確認することも推奨されます。
+- **Verify All Changes**: Before finalizing a commit, run `git status` to ensure all intended changes (including new files) are staged. Avoid partial commits unless intentionally splitting unrelated changes.
+- **Review Staged Changes**: Use `git diff --staged` to review the exact changes that will be committed. This helps catch unintended modifications or omissions.
+- **Commits by AI**: When AI (Roo) performs a commit, it should first run `git status` to check for unstaged changes, ensure all relevant files are staged, and then execute `git commit`. It is also recommended to run `git status` again after the commit to verify that no unintended differences remain.

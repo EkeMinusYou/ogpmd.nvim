@@ -43,3 +43,6 @@ try {
   // handle error
 }
 ```
+## Rule File Language
+
+- **Use English**: All files within the `.roo/rules/` directory must be written in English to ensure consistency and accessibility for all contributors.
