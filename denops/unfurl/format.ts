@@ -18,9 +18,6 @@ export function format(data: Metadata): string[] {
         outputs.push(new MarkdownBuilder(line).blockquote().build());
       }
     }
-    if (data.imageUrl) {
-      outputs.push(data.imageUrl);
-    }
   } else if (data.type === "twitter") {
     if (data.siteName) {
       outputs.push(new MarkdownBuilder(data.siteName).emphasis().blockquote().build());
@@ -36,9 +33,6 @@ export function format(data: Metadata): string[] {
       for (const line of tweetText) {
         outputs.push(new MarkdownBuilder(line).blockquote().build());
       }
-    }
-    if (data.tweetPhotoUrl) {
-      outputs.push(data.tweetPhotoUrl);
     }
   }
 

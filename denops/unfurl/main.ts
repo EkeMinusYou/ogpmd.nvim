@@ -2,6 +2,7 @@ import type { Denops } from "./deps.ts";
 import { format } from "./format.ts";
 import { write } from "./buffer.ts";
 import { fetchMetadata } from "./metadata.ts";
+import { writeImage } from "./image.ts";
 
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
@@ -35,6 +36,7 @@ async function unfurl(denops: Denops, url: string): Promise<void> {
   const metadata = await fetchMetadata(url);
   const unfolded = format(metadata);
   await write(denops, unfolded);
+  await writeImage(denops, metadata);
 }
 
 function isValidUrl(urlString: string): boolean {
