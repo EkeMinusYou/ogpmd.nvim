@@ -16,7 +16,10 @@ export function format(data: Metadata): string[] {
       outputs.push(data.imageUrl);
     }
     if (data.description) {
-      outputs.push(buildBlockquote(data.description));
+      const description = data.description.split("\n");
+      for (const line of description) {
+        outputs.push(buildBlockquote(line));
+      }
     }
   } else if (data.type === "twitter") {
     if (data.siteName) {
@@ -27,7 +30,10 @@ export function format(data: Metadata): string[] {
       outputs.push(buildBlockquote(link));
     }
     if (data.tweetText) {
-      outputs.push(buildBlockquote(data.tweetText));
+      const tweetText = data.tweetText.split("\n");
+      for (const line of tweetText) {
+        outputs.push(buildBlockquote(line));
+      }
     }
   }
 
