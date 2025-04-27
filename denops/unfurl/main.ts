@@ -1,7 +1,7 @@
 import type { Denops } from "./deps.ts";
-import { fetchMetadata } from "./html.ts"; // Import MetaData type
 import { format } from "./format.ts";
 import { write } from "./buffer.ts";
+import { fetchMetadata } from "./metadata.ts";
 
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {

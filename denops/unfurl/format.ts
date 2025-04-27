@@ -1,10 +1,10 @@
-import type { Metadata } from "./html.ts";
+import type { Metadata } from "./metadata.ts";
 
 export function format(data: Metadata): string[] {
   const outputs: string[] = [];
   const urlToUse = data.url;
 
-  if (data.type === "normal") {
+  if (data.type === "ogp") {
     const markdownLink = data.title ? createMarkdownLink(data.title, urlToUse) : null;
     const imageUrl = data.imageUrl;
 

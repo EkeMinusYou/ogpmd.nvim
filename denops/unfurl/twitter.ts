@@ -1,5 +1,5 @@
 import { chromeFinder, DOMParser, puppeteer } from "./deps.ts";
-import type { Metadata } from "./html.ts";
+import type { Metadata } from "./metadata.ts";
 
 interface TwitterOEmbedResponse {
   url: string;
@@ -46,6 +46,7 @@ export const fetchTwitterMetadata = async (url: string): Promise<Metadata> => {
       tweetText: tweetText || null,
       tweetPhotoUrl: tweetPhotoUrl || null,
     };
+    console.log("Twitter metadata:", metadata);
     return metadata;
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);

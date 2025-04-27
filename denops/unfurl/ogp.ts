@@ -1,37 +1,7 @@
 import { DOMParser, type HTMLDocument } from "./deps.ts";
-import { fetchTwitterMetadata } from "./twitter.ts"; // Import fetchTwitterMetadata
+import { Metadata } from "./metadata.ts";
 
-export type Metadata = {
-  type: "normal";
-  title: string | null;
-  imageUrl: string | null;
-  url: string;
-} | {
-  type: "twitter";
-  // Twitter specific fields will be added later in twitter.ts
-  [key: string]: unknown; // Allow other properties for now
-  url: string; // Ensure url is always present
-};
-
-export async function fetchMetadata(urlString: string): Promise<Metadata> {
-  try {
-    const url = new URL(urlString);
-    const hostname = url.hostname;
-
-    if (hostname === "twitter.com" || hostname === "x.com") {
-      return await fetchTwitterMetadata(urlString);
-    }
-    const doc = await fetchHtml(urlString);
-    const metadata = getMetadata(doc, urlString);
-    return metadata;
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`Error fetching metadata for ${urlString}: ${errorMessage}`);
-    throw new Error(`Failed to fetch metadata for ${urlString}: ${errorMessage}`);
-  }
-}
-
-async function fetchHtml(url: string): Promise<HTMLDocument> {
+export async function fetchOgp(url: string): Promise<Metadata> {
   const headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0",
   };
@@ -45,13 +15,14 @@ async function fetchHtml(url: string): Promise<HTMLDocument> {
   if (!doc) {
     throw new Error(`Failed to parse HTML from ${url}`);
   }
-  return doc;
+  const metadata = getMetadata(doc, url);
+  return metadata;
 }
 
 export function getMetadata(doc: HTMLDocument, baseUrl: string): Metadata {
   const metaUrl = getUrl(doc);
   return {
-    type: "normal",
+    type: "ogp",
     title: getTitle(doc),
     imageUrl: getImageUrl(doc, baseUrl),
     url: metaUrl || baseUrl,
