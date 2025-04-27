@@ -12,20 +12,22 @@ export function format(data: Metadata): string[] {
     if (link) {
       outputs.push(link);
     }
-    if (data.imageUrl) {
-      outputs.push(data.imageUrl);
-    }
     if (data.description) {
       const description = data.description.split("\n");
       for (const line of description) {
         outputs.push(new MarkdownBuilder(line).blockquote().build());
       }
     }
+    if (data.imageUrl) {
+      outputs.push(data.imageUrl);
+    }
   } else if (data.type === "twitter") {
     if (data.siteName) {
       outputs.push(new MarkdownBuilder(data.siteName).emphasis().blockquote().build());
     }
-    const link = data.authorUrl ? new MarkdownBuilder(data.authorName).link(data.authorUrl).blockquote().build() : null;
+    const link = data.authorUrl
+      ? new MarkdownBuilder(`${data.authorName} on X`).link(data.url).blockquote().build()
+      : null;
     if (link) {
       outputs.push(link);
     }
@@ -34,6 +36,9 @@ export function format(data: Metadata): string[] {
       for (const line of tweetText) {
         outputs.push(new MarkdownBuilder(line).blockquote().build());
       }
+    }
+    if (data.tweetPhotoUrl) {
+      outputs.push(data.tweetPhotoUrl);
     }
   }
 

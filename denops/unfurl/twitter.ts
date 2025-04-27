@@ -36,7 +36,9 @@ export const fetchTwitterMetadata = async (url: string): Promise<Metadata> => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(await frame?.content() || "", "text/html");
     const tweetText = doc.querySelector('[data-testid="tweetText"] span')?.textContent;
-    const tweetPhotoUrl = doc.querySelector(`[href="${url}/photo/1"] div img`)?.getAttribute("src");
+    const tweetPhotoUrl = doc.querySelector(
+      `[href="${oembedData.url.replace("twitter.com", "x.com")}/photo/1"] div img`,
+    )?.getAttribute("src");
 
     const metadata: Metadata = {
       type: "twitter",
