@@ -2,10 +2,7 @@ import { DOMParser, type HTMLDocument } from "./deps.ts";
 import { Metadata } from "./metadata.ts";
 
 export async function fetchOgp(url: string): Promise<Metadata> {
-  const headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0",
-  };
-  const response = await fetch(url, { headers });
+  const response = await fetch(url);
   if (!response.ok) {
     const errorText = await response.text().catch(() => "Could not read error response body");
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}\n${errorText}`);
@@ -26,6 +23,7 @@ export function getMetadata(doc: HTMLDocument, baseUrl: string): Metadata {
     title: getTitle(doc),
     imageUrl: getImageUrl(doc, baseUrl),
     url: metaUrl || baseUrl,
+    description: getDescription(doc),
   };
 }
 
@@ -61,6 +59,15 @@ function getImageUrl(doc: HTMLDocument, baseUrl: string): string | null {
         return null;
       }
     }
+  }
+  return null;
+}
+
+function getDescription(doc: HTMLDocument): string | null {
+  const ogDescriptionElement = doc.querySelector('meta[property="og:description"]');
+  const ogDescription = ogDescriptionElement?.getAttribute("content")?.trim();
+  if (ogDescription) {
+    return ogDescription;
   }
   return null;
 }

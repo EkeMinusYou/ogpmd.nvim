@@ -6,6 +6,7 @@ export type Metadata = {
   title: string | null;
   imageUrl: string | null;
   url: string;
+  description: string | null;
 } | {
   type: "twitter";
   // Twitter specific fields will be added later in twitter.ts
