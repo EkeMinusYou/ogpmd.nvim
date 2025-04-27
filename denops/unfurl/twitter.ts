@@ -1,4 +1,4 @@
-import { chromeFinder, puppeteer } from "./deps.ts";
+import { chromeFinder, DOMParser, puppeteer } from "./deps.ts";
 import type { Metadata } from "./html.ts";
 
 interface TwitterOEmbedResponse {
@@ -31,14 +31,20 @@ export const fetchTwitterMetadata = async (url: string): Promise<Metadata> => {
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();
-    await page.setContent(oembedData.html, { waitUntil: "domcontentloaded" });
+    await page.setContent(oembedData.html, { waitUntil: "networkidle0" });
+    const frame = await page.$("iframe#twitter-widget-0").then((e) => e?.contentFrame());
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(await frame?.content() || "", "text/html");
+    const tweetText = doc.querySelector('[data-testid="tweetText"] span')?.textContent;
 
-    return {
+    const metadata: Metadata = {
       type: "twitter",
       url: oembedData.url || url,
       authorName: oembedData.author_name,
       authorUrl: oembedData.author_url,
+      tweetText: tweetText || null,
     };
+    return metadata;
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     throw new Error(`Failed to process Twitter URL ${url}: ${errorMessage}`);
