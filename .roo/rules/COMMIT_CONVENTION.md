@@ -28,7 +28,7 @@ The header has a special format that includes a **type**, a **scope** and a **su
     - `chore`: Other changes that don't modify src or test files
     - `revert`: Reverts a previous commit
 - **scope** (optional): A noun specifying the place of the commit change. Use `core` for general plugin core changes.
-- **subject**: A short, imperative mood description of the change (e.g., `add login feature`, not `added login feature` or `adds login feature`). Use lowercase and no period at the end. **The subject must be a single line.**
+- **subject**: A short, imperative mood description of the change (e.g., `add login feature`, not `added login feature` or `adds login feature`). Use lowercase and no period at the end. The subject should be specific enough for others to understand the change by reading the commit history. **The subject must be a single line.**
 - **Project Specific Rule**: While the Conventional Commits specification allows for optional body and footer sections, this project **requires** commits to consist **only** of the header line (`&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;`). Do not include a blank line, body, or footer in your commit messages.
 
 ## Example
