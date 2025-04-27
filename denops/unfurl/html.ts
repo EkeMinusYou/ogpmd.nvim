@@ -2,9 +2,15 @@ import { DOMParser, type HTMLDocument } from "./deps.ts";
 import { fetchTwitterMetadata } from "./twitter.ts"; // Import fetchTwitterMetadata
 
 export type Metadata = {
+  type: "normal";
   title: string | null;
   imageUrl: string | null;
   url: string;
+} | {
+  type: "twitter";
+  // Twitter specific fields will be added later in twitter.ts
+  [key: string]: unknown; // Allow other properties for now
+  url: string; // Ensure url is always present
 };
 
 export async function fetchMetadata(urlString: string): Promise<Metadata> {
@@ -45,6 +51,7 @@ async function fetchHtml(url: string): Promise<HTMLDocument> {
 export function getMetadata(doc: HTMLDocument, baseUrl: string): Metadata {
   const metaUrl = getUrl(doc);
   return {
+    type: "normal",
     title: getTitle(doc),
     imageUrl: getImageUrl(doc, baseUrl),
     url: metaUrl || baseUrl,

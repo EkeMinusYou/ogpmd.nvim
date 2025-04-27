@@ -1,5 +1,5 @@
 import { chromeFinder, DOMParser, puppeteer } from "./deps.ts";
-import { getMetadata, type Metadata } from "./html.ts"; // Import necessary functions and type
+import type { Metadata } from "./html.ts"; // Import only necessary type
 
 export const fetchTwitterMetadata = async (url: string): Promise<Metadata> => { // Change return type
   let browser: puppeteer.Browser | undefined;
@@ -28,8 +28,15 @@ export const fetchTwitterMetadata = async (url: string): Promise<Metadata> => { 
       throw new Error(`Failed to parse HTML from ${url}`);
     }
 
-    const metadata = getMetadata(doc, url);
-    return metadata;
+    // TODO: Implement fetching and returning Twitter-specific metadata
+    // For now, return a basic object with type 'twitter' and the URL.
+    // The actual structure will depend on the Twitter API/scraping results.
+    return {
+      type: "twitter",
+      url: url,
+      // Add other Twitter-specific fields here later
+      // e.g., text: extractTweetText(doc), author: extractAuthor(doc), etc.
+    };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(`Error fetching or parsing HTML from ${url}:`, error);
