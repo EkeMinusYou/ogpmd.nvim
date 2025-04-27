@@ -6,11 +6,11 @@ export function format(data: Metadata): string[] {
 
   if (data.type === "ogp") {
     if (data.siteName) {
-      outputs.push(buildBlockquote(buildEmphasis(data.siteName)));
+      outputs.push(new MarkdownBuilder(data.siteName).emphasis().blockquote().build());
     }
-    const link = data.title ? buildLink(data.title, urlToUse) : null;
+    const link = data.title ? new MarkdownBuilder(data.title).link(urlToUse).blockquote().build() : null;
     if (link) {
-      outputs.push(buildBlockquote(link));
+      outputs.push(link);
     }
     if (data.imageUrl) {
       outputs.push(data.imageUrl);
@@ -18,21 +18,21 @@ export function format(data: Metadata): string[] {
     if (data.description) {
       const description = data.description.split("\n");
       for (const line of description) {
-        outputs.push(buildBlockquote(line));
+        outputs.push(new MarkdownBuilder(line).blockquote().build());
       }
     }
   } else if (data.type === "twitter") {
     if (data.siteName) {
-      outputs.push(buildBlockquote(buildEmphasis(data.siteName)));
+      outputs.push(new MarkdownBuilder(data.siteName).emphasis().blockquote().build());
     }
-    const link = data.authorUrl ? buildLink(data.authorName, urlToUse) : null;
+    const link = data.authorUrl ? new MarkdownBuilder(data.authorName).link(data.authorUrl).blockquote().build() : null;
     if (link) {
-      outputs.push(buildBlockquote(link));
+      outputs.push(link);
     }
     if (data.tweetText) {
       const tweetText = data.tweetText.split("\n");
       for (const line of tweetText) {
-        outputs.push(buildBlockquote(line));
+        outputs.push(new MarkdownBuilder(line).blockquote().build());
       }
     }
   }
@@ -40,16 +40,24 @@ export function format(data: Metadata): string[] {
   return outputs;
 }
 
-function buildLink(title: string, url: string): string {
-  const cleanedTitle = title.replace(/[\r\n]+/g, " ").trim();
-  const targetUrl = url && url !== "#" ? url : "#";
-  return `[${cleanedTitle}](${targetUrl})`;
-}
+class MarkdownBuilder {
+  constructor(private text: string) {}
 
-function buildBlockquote(text: string): string {
-  return `> ${text}`;
-}
+  link(url: string): MarkdownBuilder {
+    const cleanedTitle = this.text.replace(/[\r\n]+/g, " ").trim();
+    const targetUrl = url && url !== "#" ? url : "#";
+    return new MarkdownBuilder(`[${cleanedTitle}](${targetUrl})`);
+  }
 
-function buildEmphasis(text: string): string {
-  return `*${text}*`;
+  blockquote(): MarkdownBuilder {
+    return new MarkdownBuilder(`> ${this.text}`);
+  }
+
+  emphasis(): MarkdownBuilder {
+    return new MarkdownBuilder(`*${this.text}*`);
+  }
+
+  build(): string {
+    return this.text;
+  }
 }
