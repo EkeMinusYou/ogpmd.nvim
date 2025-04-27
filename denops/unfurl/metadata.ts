@@ -3,15 +3,19 @@ import { fetchTwitterMetadata } from "./twitter.ts";
 
 export type Metadata = {
   type: "ogp";
-  title: string | null;
-  imageUrl: string | null;
   url: string;
+  title: string | null;
+  siteName: string | null;
+  imageUrl: string | null;
   description: string | null;
 } | {
   type: "twitter";
-  // Twitter specific fields will be added later in twitter.ts
-  [key: string]: unknown; // Allow other properties for now
-  url: string; // Ensure url is always present
+  url: string;
+  siteName: "X (formerly Twitter)"
+  authorName: string;
+  authorUrl: string;
+  tweetText: string | null;
+  tweetPhotoUrl: string | null;
 };
 
 export function fetchMetadata(urlString: string): Promise<Metadata> {

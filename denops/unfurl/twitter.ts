@@ -40,6 +40,7 @@ export const fetchTwitterMetadata = async (url: string): Promise<Metadata> => {
 
     const metadata: Metadata = {
       type: "twitter",
+      siteName: "X (formerly Twitter)",
       url: oembedData.url || url,
       authorName: oembedData.author_name,
       authorUrl: oembedData.author_url,

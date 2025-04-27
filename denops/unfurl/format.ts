@@ -5,6 +5,9 @@ export function format(data: Metadata): string[] {
   const urlToUse = data.url;
 
   if (data.type === "ogp") {
+    if (data.siteName) {
+      outputs.push(buildBlockquote(buildEmphasis(data.siteName)));
+    }
     const link = data.title ? buildLink(data.title, urlToUse) : null;
     if (link) {
       outputs.push(buildBlockquote(link));
@@ -20,10 +23,6 @@ export function format(data: Metadata): string[] {
     outputs.push(markdownLink);
   }
 
-  if (outputs.length === 0 && urlToUse) {
-    outputs.push(buildLink(urlToUse, urlToUse));
-  }
-
   return outputs;
 }
 
@@ -35,4 +34,8 @@ function buildLink(title: string, url: string): string {
 
 function buildBlockquote(text: string): string {
   return `> ${text}`;
+}
+
+function buildEmphasis(text: string): string {
+  return `*${text}*`;
 }

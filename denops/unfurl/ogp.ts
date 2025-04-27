@@ -20,9 +20,10 @@ export function getMetadata(doc: HTMLDocument, baseUrl: string): Metadata {
   const metaUrl = getUrl(doc);
   return {
     type: "ogp",
+    url: metaUrl || baseUrl,
+    siteName: getSiteName(doc),
     title: getTitle(doc),
     imageUrl: getImageUrl(doc, baseUrl),
-    url: metaUrl || baseUrl,
     description: getDescription(doc),
   };
 }
@@ -70,4 +71,9 @@ function getDescription(doc: HTMLDocument): string | null {
     return ogDescription;
   }
   return null;
+}
+
+function getSiteName(doc: HTMLDocument): string | null {
+  const ogSiteNameElement = doc.querySelector('meta[property="og:site_name"]');
+  return ogSiteNameElement?.getAttribute("content")?.trim() || null;
 }
