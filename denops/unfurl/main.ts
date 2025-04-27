@@ -5,23 +5,23 @@ import { fetchMetadata } from "./metadata.ts";
 
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
-    async main(args: unknown): Promise<void> {
+    main(args: unknown): void {
       if (typeof args !== "string") {
-        console.error(`Invalid argument type: expected string, got ${typeof args}`);
+        denops.cmd("echoerr 'Invalid argument type: expected string'");
         return;
       }
       const url = args;
       if (!isValidUrl(url)) {
-        console.error(`Invalid URL: ${url}. Usage: unfurl <url>`);
+        denops.cmd("echoerr 'Invalid URL format. Usage: unfurl <url>'");
         return;
       }
 
-      console.log(`Fetching metadata for ${url}...`);
-      await unfurl(denops, url).then(() => {
-        console.log(`Successfully processed ${url}`);
+      denops.cmd("echo 'Fetching metadata...'");
+      unfurl(denops, url).then(() => {
+        denops.cmd("echo 'Metadata fetched successfully'");
       }).catch((e) => {
         const errorMessage = e instanceof Error ? e.message : String(e);
-        console.error(`Error processing ${url}: ${errorMessage}`);
+        denops.cmd(`echoerr 'Error processing ${url}: ${errorMessage}'`);
       });
     },
   };
