@@ -32,7 +32,20 @@ This will fetch the HTML title, meta image, and meta type (if available) from th
 
 ## Configuration
 
-(Currently, no specific configuration options are available.)
+You can configure the behavior of `img-clip.nvim` when pasting images. The plugin uses the global variable `g:unfurl_img_clip_options` to pass options to `img-clip`.
+
+Example configuration in Lua:
+
+```lua
+vim.g.unfurl_img_clip_options = {
+  use_absolute_path = false,
+  download_images = true,
+  template = "![]($FILE_PATH)",
+  -- Add other img-clip options here as needed
+}
+```
+
+Refer to the [img-clip.nvim documentation](https://github.com/HakonHarnes/img-clip.nvim) for available options. If `g:unfurl_img_clip_options` is not set, the plugin will use the default options of `img-clip.nvim`.
 
 ## Contributing
 

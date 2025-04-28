@@ -1,4 +1,4 @@
-import type { Denops } from "./deps.ts";
+import { type Denops, variable } from "./deps.ts";
 import { format } from "./format.ts";
 import { write } from "./buffer.ts";
 import { fetchMetadata } from "./metadata.ts";
@@ -6,12 +6,12 @@ import { writeImage } from "./image.ts";
 
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
-    main(args: unknown): void {
-      if (typeof args !== "string") {
+    main(...args: unknown[]): void {
+      if (typeof args[0] !== "string") {
         denops.cmd("echoerr 'Invalid argument type: expected string'");
         return;
       }
-      const url = args;
+      const url = args[0];
       if (!isValidUrl(url)) {
         denops.cmd("echoerr 'Invalid URL format. Usage: unfurl <url>'");
         return;
@@ -28,7 +28,7 @@ export async function main(denops: Denops): Promise<void> {
   };
 
   await denops.cmd(
-    `command! -nargs=1 Unfurl call denops#request('${denops.name}', 'main', [<f-args>])`,
+    `command! -nargs=* Unfurl call denops#request('${denops.name}', 'main', [<f-args>])`,
   );
 }
 
