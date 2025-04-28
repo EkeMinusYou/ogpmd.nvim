@@ -47,10 +47,6 @@ vim.g.unfurl_img_clip_options = {
 
 Refer to the [img-clip.nvim documentation](https://github.com/HakonHarnes/img-clip.nvim) for available options. If `g:unfurl_img_clip_options` is not set, the plugin will use the default options of `img-clip.nvim`.
 
-## Contributing
-
-(貢献方法などがあれば記述)
-
 ## License
 
-(ライセンス情報を記述)
+MIT License

@@ -8,6 +8,7 @@ CONTENTS						*unfurl-contents*
 3. Installation				|unfurl-installation|
 4. Usage					|unfurl-usage|
 5. Commands				|unfurl-commands|
+6. License					|unfurl-license|
 
 ==============================================================================
 INTRODUCTION					*unfurl-introduction*
@@ -71,6 +72,12 @@ Example configuration in Lua: >
 Refer to the `img-clip.nvim` documentation for available options. If
 |g:unfurl_img_clip_options| is not set, the plugin will use the default options
 of `img-clip.nvim`.
+
+==============================================================================
+LICENSE						*unfurl-license*
+
+This plugin is distributed under the MIT License.
+See the LICENSE file for details.
 
 ==============================================================================
  vim:tw=78:ts=8:ft=help:norl:
