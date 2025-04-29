@@ -8,7 +8,8 @@ CONTENTS						*unfurl-contents*
 3. Installation				|unfurl-installation|
 4. Usage					|unfurl-usage|
 5. Commands				|unfurl-commands|
-6. License					|unfurl-license|
+6. Configuration				|unfurl-configuration|
+7. License					|unfurl-license|
 
 ==============================================================================
 INTRODUCTION					*unfurl-introduction*
@@ -32,6 +33,7 @@ See the README.md for the installation snippet.
 USAGE						*unfurl-usage*
 
 This plugin provides commands for basic interaction. See |unfurl-commands|.
+Configuration options are available to customize behavior. See |unfurl-configuration|.
 
 ==============================================================================
 COMMANDS					*unfurl-commands*
@@ -39,39 +41,71 @@ COMMANDS					*unfurl-commands*
 *:Unfurl* {url}
 	Fetches the HTML title, meta image, and meta type (if available) from the
 	specified {url}. Inserts the meta type as `(Type: type)`, the title as a
-	Markdown link (`[title](url)`), and the meta image URL directly after the
-	current cursor line.
+	Markdown link (`[title](url)`), and the meta image URL (or local path if
+	downloaded) directly after the current cursor line.
+	Whether the image is downloaded depends on the |g:unfurl_option| setting,
+	specifically the `download_images` option within the `img-clip` dictionary.
+	See |unfurl-configuration|.
 	Example:
 >
 	:Unfurl https://github.com
 <
-	(`(Type: website)`, `[GitHub: Let’s build from here · GitHub](https://github.com)`,
-	 and the meta image URL might be inserted below the current line)
+	(Output depends on the URL's metadata and your configuration)
+
+*:Unfurld* {url}					*:Unfurld*
+	Similar to |:Unfurl|, but **always downloads** the meta image to your local
+	machine, regardless of the `download_images` setting in |g:unfurl_option|.
+	This uses the options configured in |g:unfurl_option| for `img-clip` (like
+	`template` and `use_absolute_path`), but overrides the download behavior.
+	Example:
+>
+	:Unfurld https://example.com/article-with-image
+<
+	(Will attempt to download the image associated with the URL)
+
 ==============================================================================
 CONFIGURATION					*unfurl-configuration*
 
-You can configure the behavior of `img-clip.nvim` when pasting images by setting
-the global variable |g:unfurl_img_clip_options|. This variable should be a
-dictionary containing options that will be passed directly to `img-clip`.
+You can configure the plugin's behavior by setting the global variable
+|g:unfurl_option|. This variable should be a dictionary.
 
-Example configuration in Vimscript: >
-	let g:unfurl_img_clip_options = {
-	\   'use_absolute_path': v:false,
-	\   'download_images': v:true,
-	\   'template': '![]($FILE_PATH)',
+Currently, the main configuration involves options passed to `img-clip.nvim`,
+which are nested under the `img-clip` key.
+
+*g:unfurl_option*				*g:unfurl_option*
+	Type: |Dictionary|
+	Default: `{}` (effectively uses default values for sub-options)
+
+	Example configuration in Vimscript: >
+	let g:unfurl_option = {
+	\   'img-clip': {
+	\     'use_absolute_path': v:false,
+	\     'download_images': v:false,  " Default for :Unfurl
+	\     'template': '![]($FILE_PATH)',
+	\   },
 	\ }
 <
-Example configuration in Lua: >
-	vim.g.unfurl_img_clip_options = {
-	  use_absolute_path = false,
-	  download_images = true,
-	  template = "![]($FILE_PATH)",
-	  -- Add other img-clip options here as needed
+	Example configuration in Lua: >
+	vim.g.unfurl_option = {
+	  ["img-clip"] = {
+	    use_absolute_path = false,
+	    download_images = false, -- Default for :Unfurl
+	    template = "![]($FILE_PATH)",
+	    -- Add other img-clip options here as needed
+	  },
+	  -- Add other plugin-specific options here in the future
 	}
 <
-Refer to the `img-clip.nvim` documentation for available options. If
-|g:unfurl_img_clip_options| is not set, the plugin will use the default options
-of `img-clip.nvim`.
+	Options under `g:unfurl_option['img-clip']`:
+	- `use_absolute_path`: (Boolean, default: `v:false`) Passed to `img-clip`.
+	- `download_images`: (Boolean, default: `v:false`) If `v:true`, |:Unfurl|
+	  will attempt to download the image using `img-clip`. |:Unfurld| always
+	  attempts to download the image, regardless of this setting.
+	- `template`: (String, default: `"![]($FILE_PATH)"`) Passed to `img-clip`.
+
+	Refer to the `img-clip.nvim` documentation for details on its options. If
+	|g:unfurl_option| or `g:unfurl_option['img-clip']` is not set, default
+	values are used.
 
 ==============================================================================
 LICENSE						*unfurl-license*

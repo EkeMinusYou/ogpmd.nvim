@@ -1,11 +1,10 @@
 import { Denops } from "./deps.ts";
 import { Metadata } from "./metadata.ts";
-import { getOpt } from "./config.ts";
+import { Opt } from "./config.ts";
 import { inspect } from "node:util";
 
-export const writeImage = async (denops: Denops, data: Metadata): Promise<void> => {
-  const opt = await getOpt(denops);
-  const formartedOpt = inspect(opt["img-clip"], { breakLength: 1000 }).replace(/'/g, '"').replace(/:/g, "=");
+export const writeImage = async (denops: Denops, data: Metadata, opt: Opt["img-clip"]): Promise<void> => {
+  const formartedOpt = inspect(opt, { breakLength: 1000 }).replace(/'/g, '"').replace(/:/g, "=");
   const photoUrl = data.type === "twitter" ? data.tweetPhotoUrl : data.imageUrl;
 
   if (photoUrl) {
