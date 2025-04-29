@@ -3,7 +3,7 @@ import { Denops, variable } from "./deps.ts";
 const defaultOpt = {
   "img-clip": {
     use_absolute_path: false,
-    download_images: true,
+    download_images: false,
     template: "![]($FILE_PATH)",
   },
 } as const;
