@@ -1,4 +1,4 @@
-import { Denops, variable } from "./deps.ts";
+import { type Denops, variable } from "./deps.ts";
 
 export type Opt = typeof defaultOpt & Record<string, unknown>;
 

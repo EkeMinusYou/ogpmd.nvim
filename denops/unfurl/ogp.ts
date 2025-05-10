@@ -1,5 +1,5 @@
 import { DOMParser, type HTMLDocument } from "./deps.ts";
-import { Metadata } from "./metadata.ts";
+import type { Metadata } from "./metadata.ts";
 
 export async function fetchOgp(url: string): Promise<Metadata> {
   const response = await fetch(url);

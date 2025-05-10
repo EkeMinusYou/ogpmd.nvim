@@ -1,6 +1,6 @@
-import { Denops } from "./deps.ts";
-import { Metadata } from "./metadata.ts";
-import { Opt } from "./config.ts";
+import type { Denops } from "./deps.ts";
+import type { Metadata } from "./metadata.ts";
+import type { Opt } from "./config.ts";
 import { inspect } from "node:util";
 
 export const writeImage = async (denops: Denops, data: Metadata, opt: Opt["img-clip"]): Promise<void> => {

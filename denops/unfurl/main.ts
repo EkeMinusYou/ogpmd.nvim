@@ -1,9 +1,9 @@
-import { type Denops } from "./deps.ts";
+import type { Denops } from "./deps.ts";
 import { format } from "./format.ts";
 import { write } from "./buffer.ts";
 import { fetchMetadata } from "./metadata.ts";
 import { writeImage } from "./image.ts";
-import { getOpt, Opt } from "./config.ts";
+import { getOpt, type Opt } from "./config.ts";
 
 export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
