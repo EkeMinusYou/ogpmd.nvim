@@ -6,7 +6,7 @@ const defaultOpt = {
   "img-clip": {
     use_absolute_path: false,
     download_images: false,
-    template: "![]($FILE_PATH)",
+    template: "![$FILE_NAME]($FILE_PATH)",
   },
 };
 

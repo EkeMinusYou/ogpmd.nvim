@@ -81,7 +81,7 @@ which are nested under the `img-clip` key.
 	\   'img-clip': {
 	\     'use_absolute_path': v:false,
 	\     'download_images': v:false,  " Default for :Unfurl
-	\     'template': '![]($FILE_PATH)',
+	\     'template': '![$FILE_NAME]($FILE_PATH)',
 	\   },
 	\ }
 <
@@ -90,7 +90,7 @@ which are nested under the `img-clip` key.
 	  ["img-clip"] = {
 	    use_absolute_path = false,
 	    download_images = false, -- Default for :Unfurl
-	    template = "![]($FILE_PATH)",
+	    template = "![$FILE_NAME]($FILE_PATH)",
 	    -- Add other img-clip options here as needed
 	  },
 	  -- Add other plugin-specific options here in the future

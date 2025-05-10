@@ -51,7 +51,7 @@ vim.g.unfurl_option = {
   ["img-clip"] = {
     use_absolute_path = false,
     download_images = false, -- Set to true to download images by default with :Unfurl
-    template = "![]($FILE_PATH)",
+    template: "![$FILE_NAME]($FILE_PATH)",
     -- Add other img-clip options here as needed
   },
   -- Add other plugin-specific options here in the future
